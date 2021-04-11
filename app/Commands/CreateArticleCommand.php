@@ -6,24 +6,22 @@ use App\Helpers;
 use App\Models\Tag;
 use App\Models\Topic;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 use LaravelZero\Framework\Commands\Command;
 
-class CreatePostFileCommand extends Command
+class CreateArticleCommand extends Command
 {
-    /**
-     * The signature of the command.
-     *
-     * @var string
-     */
-    protected $signature = 'article:create';
+    protected $project;
 
     /**
-     * The description of the command.
+     * Configure the command options.
      *
-     * @var string
+     * @return void
      */
-    protected $description = 'Create a new article';
+    public function configure()
+    {
+        $this->setName('create')
+            ->setDescription('Create a new article');
+    }
 
     /**
      * Execute the console command.
@@ -32,24 +30,26 @@ class CreatePostFileCommand extends Command
      */
     public function handle()
     {
-        $project = Helpers::project();
+        $this->project = Helpers::project();
+
         $details = [];
         $details['title'] = $this->ask('Title');
         $details['slug'] = Str::slug($details['title']);
         $details['summary'] = $this->ask('Summary');
-        $topics = DB::connection($project['project'])->table('posty_topics')->get('slug')->pluck('slug')->toArray();
-        $tags = DB::connection($project['project'])->table('posty_tags')->get('slug')->pluck('slug')->toArray();
+        $topics = Topic::select('slug')->pluck('slug')->toArray();
+        $tags = Tag::select('slug')->pluck('slug')->toArray();
         $details['topic'] = implode(',', $this->choice('Topics', $topics, null, null, true));
         $details['tags'] = implode(',', $this->choice('Tags', $tags, null, null, true));
 
-        if(file_exists($project['local_path'] . "/{$details['slug']}.md")) {
-            $this->error('This article already exists.');
+        if(file_exists($this->project['local_path'] . "/{$details['slug']}.md")) {
+            Helpers::abort('Article file name already exists.');
         }
 
-        $this->task("Creating a new article", function () use($project, $details) {
-            file_put_contents($project['local_path'] . "/{$details['slug']}.md", $this->articleTemplate($details));
-
-            return true;
+        $this->task("Creating a new article", function () use($details) {
+            return file_put_contents(
+                $this->project['local_path'] . "/{$details['slug']}.md",
+                $this->articleTemplate($details)
+            );
         });
     }
 
@@ -58,6 +58,7 @@ class CreatePostFileCommand extends Command
         return <<<EOF
         ---
         title: {$details['title']}
+        slug: {$details['slug']}
         summary: {$details['summary']}
         topic: {$details['topic']}
         tags: {$details['tags']}

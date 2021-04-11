@@ -2,11 +2,10 @@
 
 namespace App;
 
-use Exception;
 use App\Config;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Container\Container;
+use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Support\Facades\Config as ApplicationConfig;
 
 class Helpers
@@ -20,9 +19,33 @@ class Helpers
      */
     public static function abort($text)
     {
-        // static::danger($text);
+        static::danger($text);
 
         exit(1);
+    }
+
+    /**
+     * Display a danger message.
+     *
+     * @param string $text
+     *
+     * @return void
+     */
+    public static function danger($text)
+    {
+        static::app(OutputInterface::class)->writeln('<fg=red>'.$text.'</>');
+    }
+
+    /**
+     * Resolve a service from the container.
+     *
+     * @param string|null $name
+     *
+     * @return mixed
+     */
+    public static function app($name = null)
+    {
+        return $name ? Container::getInstance()->make($name) : Container::getInstance();
     }
 
     /**
@@ -36,12 +59,12 @@ class Helpers
     {
         $project = $name
             ? Config::get('projects' . '.' . strtolower($name))
-            : collect(Config::get('projects'))->first(function($project) {
+            : collect(Config::get('projects'))->first(function ($project) {
                 return $project['local_path'] === getcwd();
             });
 
-        if(! $project) {
-            static::abort("Project is not linked");
+        if (! $project) {
+            static::abort("There is no project linked with the current folder: " . getcwd());
         }
 
         ApplicationConfig::set("database.connections.{$project['project']}", $project[$project['default_connection']]);
@@ -69,23 +92,6 @@ class Helpers
         }
 
         return Config::get($key, $value);
-    }
-
-    /**
-     * Ensure that the user has authenticated with Laravel Vapor.
-     *
-     * @return void
-     */
-    public static function ensure_api_token_is_available()
-    {
-        if (isset($_ENV['VAPOR_API_TOKEN']) ||
-            getenv('VAPOR_API_TOKEN')) {
-            return;
-        }
-
-        if (! static::config('token') || ! static::config('team')) {
-            throw new Exception("Please authenticate using the 'login' command before proceeding.");
-        }
     }
 
     /**
