@@ -30,11 +30,7 @@ class CheckConnectionStatus extends Command
      */
     public function handle()
     {
-        $project = Helpers::project();
-
-        $this->task('Checking if project is linked', function() use($project) {
-            return $project ? true : false;
-        });
+        Helpers::project();
 
         $this->task('Checking if a connection can be made', function() {
             try {

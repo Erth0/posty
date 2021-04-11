@@ -5,7 +5,6 @@ namespace App\Commands;
 use App\Helpers;
 use App\Models\Article;
 use Illuminate\Support\Str;
-use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,9 +38,9 @@ class DeleteArticleCommand extends Command
         }
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
-        $slug = Str::slug($parser->title) ?? $this->ask('Article slug');
+        $slug = $parser->slug ?? Str::slug($parser->title);
 
-        if($slug) {
+        if(! $slug) {
             Helpers::abort('Article slug is required to find the article');
         }
 
@@ -54,7 +53,7 @@ class DeleteArticleCommand extends Command
         $article->delete();
 
         // Delete file
-        // unlink($file);
+        unlink($file);
 
         $this->info("Article ({$article->title}) was deleted successfully");
     }

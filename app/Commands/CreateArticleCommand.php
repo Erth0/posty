@@ -34,6 +34,7 @@ class CreateArticleCommand extends Command
 
         $details = [];
         $details['title'] = $this->ask('Title');
+        $details['status'] = $this->choice('Status', ['draft', 'published'], 'published');
         $details['slug'] = Str::slug($details['title']);
         $details['summary'] = $this->ask('Summary');
         $topics = Topic::select('slug')->pluck('slug')->toArray();
@@ -62,8 +63,9 @@ class CreateArticleCommand extends Command
         summary: {$details['summary']}
         topic: {$details['topic']}
         tags: {$details['tags']}
-        preview_image:
-        preview_image_twitter:
+        status: {$details['status']}
+        featured_image:
+        featured_image_caption:
         ---
         EOF;
     }

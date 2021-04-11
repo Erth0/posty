@@ -64,7 +64,9 @@ class PublishArticleCommand extends Command
             'slug' => $slug,
             'summary' => $parser->summary,
             'body' => $parser->body(),
-            'published_at' => $parser->published_at ?? now(),
+            'published_at' => $parser->status === 'published' ? now() : null,
+            'featured_image' => $this->featured_image,
+            'featured_image_caption' => $this->featured_image_caption,
             'meta' => [],
         ]);
 
@@ -97,6 +99,6 @@ class PublishArticleCommand extends Command
         $article->topics()->attach($topicsIds);
         $article->tags()->attach($tagsIds);
 
-        $this->info("Article with ID: {$article->id} was created successfully.");
+        $this->info("Article ({$article->title}) was created successfully with ID: {$article->id}");
     }
 }
