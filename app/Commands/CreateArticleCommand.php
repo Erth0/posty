@@ -42,7 +42,7 @@ class CreateArticleCommand extends Command
         $details['topic'] = implode(',', $this->choice('Topics', $topics, null, null, true));
         $details['tags'] = implode(',', $this->choice('Tags', $tags, null, null, true));
 
-        if(file_exists($this->project['local_path'] . "/{$details['slug']}.md")) {
+        if(file_exists($file = $this->project['local_path'] . "/{$details['slug']}.md")) {
             Helpers::abort('Article file name already exists.');
         }
 
@@ -52,6 +52,8 @@ class CreateArticleCommand extends Command
                 $this->articleTemplate($details)
             );
         });
+
+        $this->info("file://{$file}");
     }
 
     public function articleTemplate(array $details)

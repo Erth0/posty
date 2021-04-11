@@ -10,18 +10,15 @@ use LaravelZero\Framework\Commands\Command;
 class CheckConnectionStatus extends Command
 {
     /**
-     * The signature of the command.
+     * Configure the command options.
      *
-     * @var string
+     * @return void
      */
-    protected $signature = 'test';
-
-    /**
-     * The description of the command.
-     *
-     * @var string
-     */
-    protected $description = 'Check Posty Connection';
+    public function configure()
+    {
+        $this->setName('test')
+            ->setDescription('Check posty connection');
+    }
 
     /**
      * Execute the console command.
