@@ -2,24 +2,19 @@
 
 namespace App\Commands;
 
-use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
-
 class SynchronizeArticlesCommand extends Command
 {
     /**
-     * The signature of the command.
+     * Configure the command options.
      *
-     * @var string
+     * @return void
      */
-    protected $signature = 'command:name';
-
-    /**
-     * The description of the command.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+    public function configure()
+    {
+        $this->setName('sync')
+            ->setDescription('Synchronize Project Articles');
+    }
 
     /**
      * Execute the console command.
@@ -28,17 +23,7 @@ class SynchronizeArticlesCommand extends Command
      */
     public function handle()
     {
-        //
-    }
-
-    /**
-     * Define the command's schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
-     * @return void
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
+        // get all articles
+        // update them accordingly
     }
 }
