@@ -44,12 +44,13 @@ class UpdateArticleCommand extends Command
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-        $article = Article::findBySlug($slug = $parser->slug ?? Str::slug($parser->title));
+        $article = Article::find($articleId = $parser->id);
         if(! $article) {
-            Helpers::abort("Article couldn't be found in the database with slug: {$slug}");
+            Helpers::abort("Article couldn't be found in the database with ID: {$articleId}");
         }
 
-        (new UpdateArticleAction($article, [
+        (new UpdateArticleAction([
+            'id' => $parser->id,
             'title' => $parser->title,
             'slug' => $parser->slug,
             'summary' => $parser->summary,

@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Helpers;
+use App\Models\Article;
 use App\Models\Tag;
 use App\Models\Topic;
 use Illuminate\Support\Str;
@@ -47,6 +48,14 @@ class CreateArticleCommand extends Command
         }
 
         $this->task("Creating a new article", function () use($details) {
+            $article = Article::create([
+                'title' => $details['title'],
+                'slug' => $details['slug'],
+                'summary' => $details['summary']
+            ]);
+
+            $details['id'] = $article->id;
+
             return file_put_contents(
                 $this->project['local_path'] . "/{$details['slug']}.md",
                 $this->articleTemplate($details)
@@ -60,6 +69,7 @@ class CreateArticleCommand extends Command
     {
         return <<<EOF
         ---
+        id: {$details['id']}
         title: {$details['title']}
         slug: {$details['slug']}
         summary: {$details['summary']}

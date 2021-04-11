@@ -19,9 +19,9 @@ class UpdateArticleAction
      */
     protected array $data;
 
-    public function __construct(Article $article, array $data)
+    public function __construct(array $data)
     {
-        $this->article = $article;
+        $this->article = Article::find($data['id']);
         $this->data = $data;
     }
 
@@ -34,7 +34,7 @@ class UpdateArticleAction
             'slug' => $this->data['slug'],
             'summary' => $this->data['summary'],
             'body' => $this->data['body'],
-            'published_at' => $this->data['status'] === 'published' ? $this->article->published_at : null,
+            'published_at' => $this->data['status'] === 'published' ? ($this->article->published_at ?? now()) : null,
             'featured_image' => $this->data['featured_image'],
             'featured_image_caption' => $this->data['featured_image_caption'],
         ]);

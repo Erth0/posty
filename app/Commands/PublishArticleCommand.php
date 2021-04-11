@@ -4,7 +4,7 @@ namespace App\Commands;
 
 use App\Helpers;
 use Illuminate\Support\Str;
-use App\Actions\CreateArticleAction;
+use App\Actions\UpdateArticleAction;
 use LaravelZero\Framework\Commands\Command;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -42,7 +42,8 @@ class PublishArticleCommand extends Command
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-        $article = (new CreateArticleAction([
+        $article = (new UpdateArticleAction([
+            'id' => $parser->id,
             'title' => $parser->title,
             'slug' => $parser->slug,
             'summary' => $parser->summary,
@@ -54,6 +55,6 @@ class PublishArticleCommand extends Command
             'tags' => $parser->tags,
         ]))->execute();
 
-        $this->info("Article ({$article->title}) was created successfully with ID: {$article->id}");
+        $this->info("Article ({$article->title}) was published successfully.");
     }
 }
