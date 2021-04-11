@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Support\Arr;
-
 class Config
 {
     /**
@@ -32,6 +31,34 @@ class Config
         $config = static::load();
 
         Arr::set($config, $key, $value);
+
+        file_put_contents(static::path(), json_encode($config, JSON_PRETTY_PRINT));
+    }
+
+    /**
+     * Check the given configuration exists
+     *
+     * @param string $key
+     *
+     * @return boolean
+     */
+    public static function has(string $key)
+    {
+        return static::get($key) ? true : false;
+    }
+
+    /**
+     * Forget the given configuration value
+     *
+     * @param string $key
+     *
+     * @return void
+     */
+    public static function forget(string $key)
+    {
+        $config = static::load();
+
+        Arr::forget($config, $key);
 
         file_put_contents(static::path(), json_encode($config, JSON_PRETTY_PRINT));
     }

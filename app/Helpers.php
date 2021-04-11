@@ -58,13 +58,13 @@ class Helpers
     public static function project($name = null)
     {
         $project = $name
-            ? Config::get('projects' . '.' . strtolower($name))
-            : collect(Config::get('projects'))->first(function ($project) {
+            ? Config::get(strtolower($name))
+            : collect(Config::load())->first(function ($project) {
                 return $project['local_path'] === getcwd();
             });
 
         if (! $project) {
-            static::abort("There is no project linked with the current folder: " . getcwd());
+            static::abort("No project linked with the current folder: " . getcwd());
         }
 
         ApplicationConfig::set("database.connections.{$project['project']}", $project[$project['default_connection']]);

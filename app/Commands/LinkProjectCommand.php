@@ -3,24 +3,22 @@
 namespace App\Commands;
 
 use App\Config;
+use App\Helpers;
 use App\Path;
 use LaravelZero\Framework\Commands\Command;
 
 class LinkProjectCommand extends Command
 {
     /**
-     * The signature of the command.
+     * Configure the command options.
      *
-     * @var string
+     * @return void
      */
-    protected $signature = 'link';
-
-    /**
-     * The description of the command.
-     *
-     * @var string
-     */
-    protected $description = 'Link a local folder with a blog project';
+    public function configure()
+    {
+        $this->setName('link')
+            ->setDescription('Link a local folder with a blog project');
+    }
 
     /**
      * Execute the console command.
@@ -32,9 +30,9 @@ class LinkProjectCommand extends Command
         $projectDetails = [];
         $projectName = $this->ask("Please provide a project name?");
         $projectKeyName = strtolower($projectName);
-        // if(Config::get("projects.{$projectKeyName}")) {
-        //     $this->info("This project is already linked, remapping...");
-        // }
+        if(Config::get($projectKeyName)) {
+            Helpers::abort('This project is already linked.');
+        }
 
         $projectDetails['name'] = $projectName;
         $projectDetails['project'] = $projectKeyName;
@@ -58,6 +56,8 @@ class LinkProjectCommand extends Command
             $projectDetails[$connection]['password'] = $this->secret('Database Password');
         }
 
-        Config::set("projects.{$projectKeyName}", $projectDetails);
+        Config::set($projectKeyName, $projectDetails);
+
+        $this->info("Folder was linked successfully with project: {$projectName}");
     }
 }
