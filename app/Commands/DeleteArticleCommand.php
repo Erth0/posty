@@ -32,7 +32,9 @@ class DeleteArticleCommand extends Command
     public function handle()
     {
         $project = Helpers::project();
-        $articleFileName = $this->argument('article') ?? $this->ask('Article file name');
+        $article = $this->argument('article') ?? $this->ask('Article file name');
+        $articleFileName = Str::endsWith($article, '.md') ? $article : $article . '.md';
+
         if(! file_exists($file = $project['local_path'] . '/' . $articleFileName)) {
             Helpers::abort("Article couldn't be found: " . $articleFileName);
         }
@@ -52,7 +54,6 @@ class DeleteArticleCommand extends Command
 
         $article->delete();
 
-        // Delete file
         unlink($file);
 
         $this->info("Article ({$article->title}) was deleted successfully");
