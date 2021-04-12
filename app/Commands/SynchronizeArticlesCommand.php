@@ -36,9 +36,9 @@ class SynchronizeArticlesCommand extends Command
         ->each(function($file) {
             $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-            $article = Article::findBySlug($slug = $parser->slug);
+            $article = Article::find($parser->id);
             if(! $article) {
-                $this->info("Article couldn't be found in the database with slug: {$slug}, skipping...");
+                $this->info("Article couldn't be found in the database, skipping...");
                 return;
             }
 

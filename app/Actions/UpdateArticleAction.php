@@ -27,7 +27,7 @@ class UpdateArticleAction
 
     public function execute()
     {
-        $this->validateArticleCanBeCreated();
+        $this->ensureArticleCanBeCreated();
 
         $this->article->update([
             'title' => $this->data['title'],
@@ -76,7 +76,7 @@ class UpdateArticleAction
      *
      * @return void
      */
-    private function validateArticleCanBeCreated()
+    private function ensureArticleCanBeCreated()
     {
         if(! $this->data['title']) {
             Helpers::abort('Article title is required');

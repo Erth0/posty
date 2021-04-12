@@ -40,16 +40,15 @@ class DeleteArticleCommand extends Command
         }
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
-        $slug = $parser->slug ?? Str::slug($parser->title);
 
-        if(! $slug) {
-            Helpers::abort('Article slug is required to find the article');
+        if(! $parser->id) {
+            Helpers::abort('Article id is required to find the article');
         }
 
-        $article = Article::findBySlug($slug);
+        $article = Article::find($parser->id);
 
         if(! $article) {
-            Helpers::abort("Article ({$slug}) does not exists in the database");
+            Helpers::abort("Article ({$article->id}) does not exists in the database");
         }
 
         $article->delete();
