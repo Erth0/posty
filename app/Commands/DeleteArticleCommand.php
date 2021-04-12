@@ -51,10 +51,14 @@ class DeleteArticleCommand extends Command
             Helpers::abort("Article ({$article->id}) does not exists in the database");
         }
 
-        $article->delete();
+        $confirmation = $this->confirm("Are you sure your would like to delete this article: ({$article->title})");
 
-        unlink($file);
+        if($confirmation) {
+            $article->delete();
 
-        $this->info("Article ({$article->title}) was deleted successfully");
+            unlink($file);
+
+            $this->info("Article ({$article->title}) was deleted successfully");
+        }
     }
 }

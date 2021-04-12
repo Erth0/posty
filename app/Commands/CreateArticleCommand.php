@@ -21,6 +21,7 @@ class CreateArticleCommand extends Command
     public function configure()
     {
         $this->setName('create')
+            ->setAliases(['article:create', 'create:article'])
             ->setDescription('Create a new article');
     }
 
@@ -36,33 +37,25 @@ class CreateArticleCommand extends Command
         $details = [];
         $details['title'] = $this->ask('Title');
         $details['status'] = $this->choice('Status', ['draft', 'published'], 'published');
-        $details['slug'] = Str::slug($details['title']);
         $details['summary'] = $this->ask('Summary');
         $topics = Topic::select('slug')->pluck('slug')->toArray();
         $tags = Tag::select('slug')->pluck('slug')->toArray();
         $details['topic'] = implode(',', $this->choice('Topics', $topics, null, null, true));
         $details['tags'] = implode(',', $this->choice('Tags', $tags, null, null, true));
 
-        if(file_exists($file = $this->project['local_path'] . "/{$details['slug']}.md")) {
-            Helpers::abort('Article file name already exists.');
-        }
+        $article = Article::create([
+            'title' => $details['title'],
+            'summary' => $details['summary']
+        ]);
 
-        $this->task("Creating a new article", function () use($details) {
-            $article = Article::create([
-                'title' => $details['title'],
-                'slug' => $details['slug'],
-                'summary' => $details['summary']
-            ]);
+        $details['id'] = $article->id;
 
-            $details['id'] = $article->id;
+        file_put_contents(
+            $file = $this->project['local_path'] . "/{$article->slug}.md",
+            $this->articleTemplate($details)
+        );
 
-            return file_put_contents(
-                $this->project['local_path'] . "/{$details['slug']}.md",
-                $this->articleTemplate($details)
-            );
-        });
-
-        $this->info("file://{$file}");
+        $this->info("Article was created successfully: file://{$file}");
     }
 
     public function articleTemplate(array $details)
@@ -71,7 +64,6 @@ class CreateArticleCommand extends Command
         ---
         id: {$details['id']}
         title: {$details['title']}
-        slug: {$details['slug']}
         summary: {$details['summary']}
         topic: {$details['topic']}
         tags: {$details['tags']}

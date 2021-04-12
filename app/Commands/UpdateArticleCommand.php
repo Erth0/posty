@@ -3,8 +3,6 @@
 namespace App\Commands;
 
 use App\Helpers;
-use App\Models\Tag;
-use App\Models\Topic;
 use App\Models\Article;
 use Illuminate\Support\Str;
 use App\Actions\UpdateArticleAction;
@@ -60,6 +58,7 @@ class UpdateArticleCommand extends Command
             'featured_image_caption' => $parser->featured_image_caption,
             'topics' => $parser->topics,
             'tags' => $parser->tags,
+            'meta' => $parser->meta,
         ]))->execute();
 
         $this->info("Article ({$article->title}) was updated successfully.");

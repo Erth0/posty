@@ -37,6 +37,7 @@ class UpdateArticleAction
             'published_at' => $this->data['status'] === 'published' ? ($this->article->published_at ?? now()) : null,
             'featured_image' => $this->data['featured_image'],
             'featured_image_caption' => $this->data['featured_image_caption'],
+            'meta' => $this->data['meta'],
         ]);
 
         $topics = explode(',', $this->data['topics']);

@@ -53,6 +53,7 @@ class PublishArticleCommand extends Command
             'featured_image_caption' => $parser->featured_image_caption,
             'topics' => $parser->topics,
             'tags' => $parser->tags,
+            'meta' => $parser->meta,
         ]))->execute();
 
         $this->info("Article ({$article->title}) was published successfully.");

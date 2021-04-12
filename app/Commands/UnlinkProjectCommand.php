@@ -29,9 +29,8 @@ class UnlinkProjectCommand extends Command
     public function handle()
     {
         $projectKeyName = strtolower($this->argument('project') ?? $this->ask("Project Name"));
-        $project = Config::has($projectKeyName);
 
-        if(! $project) {
+        if(! Config::has($projectKeyName)) {
             Helpers::abort("The project ({$projectKeyName}) doesn't exists please check project name was correct");
         }
 
