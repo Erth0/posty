@@ -5,6 +5,7 @@ namespace App\Commands;
 use Exception;
 use App\Helpers;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use LaravelZero\Framework\Commands\Command;
 
 class CheckConnectionStatus extends Command
@@ -27,7 +28,10 @@ class CheckConnectionStatus extends Command
      */
     public function handle()
     {
-        Helpers::project();
+        $project = Helpers::project();
+
+        $response = Http::withToken('UiLFSdcFn04tcZ55Jcgx1oK8Tbh5Fk7d')->get($project['api']['endpoint'] . 'posty/test')->object();
+        dd($response->success);
 
         $this->task('Checking if a connection can be made', function() {
             try {

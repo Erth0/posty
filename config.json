@@ -1,17 +1,12 @@
 {
-    "emukja": {
-        "name": "emukja",
-        "project": "emukja",
+    "mukja": {
+        "name": "mukja",
+        "project": "mukja",
         "local_path": "\/Users\/eth0\/emukja",
-        "default_connection": "database",
-        "database": {
-            "driver": "mysql",
-            "url": null,
-            "host": "127.0.0.1",
-            "port": "3306",
-            "database": "emukja",
-            "username": "eth0",
-            "password": "password"
+        "default_connection": "api",
+        "api": {
+            "endpoint": "http:\/\/mukja.wip\/",
+            "api_key": "UiLFSdcFn04tcZ55Jcgx1oK8Tbh5Fk7d"
         }
     }
 }

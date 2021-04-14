@@ -30,14 +30,19 @@ class LinkProjectCommand extends Command
         $projectDetails = [];
         $projectName = $this->ask("Please provide a project name?");
         $projectKeyName = strtolower($projectName);
-        if(Config::get($projectKeyName)) {
+        if(Config::has($projectKeyName)) {
             Helpers::abort('This project is already linked.');
         }
 
         $projectDetails['name'] = $projectName;
         $projectDetails['project'] = $projectKeyName;
         $projectDetails['local_path'] = Path::current();
-        $projectDetails['default_connection'] = $connection = $this->choice('What is your prefered project connection?', ['database', 'ssh']);
+        $projectDetails['default_connection'] = $connection = $this->choice('What is your prefered project connection?', ['api', 'database', 'ssh']);
+
+        if($connection === 'api') {
+            $projectDetails[$connection]['base_url'] = $this->ask('Api Endpoint');
+            $projectDetails[$connection]['api_key'] = $this->ask('Api Key');
+        }
 
         if($connection === 'ssh') {
             $projectDetails[$connection]['host'] = $this->ask('Remote Host');
