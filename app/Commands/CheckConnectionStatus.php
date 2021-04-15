@@ -4,12 +4,20 @@ namespace App\Commands;
 
 use Exception;
 use App\Helpers;
+use App\Services\PostyProject;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use LaravelZero\Framework\Commands\Command;
 
 class CheckConnectionStatus extends Command
 {
+    protected $project;
+
+    public function __construct(PostyProject $project)
+    {
+        dd($project);
+    }
+
     /**
      * Configure the command options.
      *

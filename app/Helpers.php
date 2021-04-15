@@ -3,10 +3,8 @@
 namespace App;
 
 use App\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Container\Container;
 use Symfony\Component\Console\Output\OutputInterface;
-use Illuminate\Support\Facades\Config as ApplicationConfig;
 
 class Helpers
 {
@@ -66,9 +64,6 @@ class Helpers
         if (! $project) {
             static::abort("No project linked with the current folder: " . getcwd());
         }
-
-        ApplicationConfig::set("database.connections.{$project['project']}", $project[$project['default_connection']]);
-        DB::setDefaultConnection($project['project']);
 
         return $project;
     }
