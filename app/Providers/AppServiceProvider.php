@@ -18,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         dd(app(PostyProject::class));
+
         $project = Helpers::project();
         Config::set("database.connections.{$project['project']}", $project[$project['default_connection']]);
         DB::setDefaultConnection($project['project']);
