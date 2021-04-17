@@ -14,5 +14,11 @@ interface ProjectAdapter
 
     public function getArticle(string $slug);
 
-    public function createInitialArticle(array $data);
+    public function createArticle(array $data);
+
+    public function updateArticle(int $id, array $data);
+
+    public function deleteArticle(int $id);
+
+    public function synchronizeArticles(array $articles);
 }

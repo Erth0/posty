@@ -67,16 +67,30 @@ class ApiAdapter implements ProjectAdapter
         return $response->json();
     }
 
-    public function createInitialArticle(array $data)
+    public function createArticle(array $data)
     {
         $response = $this->client->post('posty/articles', $data);
-
-        dd($response->body());
 
         if(! $response->ok()) {
             Helpers::abort("Something went wrong while trying to create the article.");
         }
 
         return $response->json();
+    }
+
+    public function updateArticle(int $id, array $data)
+    {
+        $response = $this->client->post("posty/articles/{$id}/update", $data);
+
+        if(! $response->ok()) {
+            Helpers::abort("Something went wrong while trying to update the article.");
+        }
+
+        return $response->json();
+    }
+
+    public function deleteArticle(int $id)
+    {
+
     }
 }
