@@ -91,6 +91,12 @@ class ApiAdapter implements ProjectAdapter
 
     public function deleteArticle(int $id)
     {
+        $response = $this->client->delete("posty/articles/{$id}");
 
+        if(! $response->ok()) {
+            Helpers::abort("Something went wrong while trying to delete the article.");
+        }
+
+        return $response->json();
     }
 }

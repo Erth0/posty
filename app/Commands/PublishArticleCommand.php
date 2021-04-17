@@ -42,8 +42,7 @@ class PublishArticleCommand extends Command
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-        $article = (new UpdateArticleAction([
-            'id' => $parser->id,
+        $article = app(Project::class)->updateArticle($parser->id, [
             'title' => $parser->title,
             'slug' => $parser->slug,
             'summary' => $parser->summary,
@@ -54,7 +53,20 @@ class PublishArticleCommand extends Command
             'topics' => $parser->topics,
             'tags' => $parser->tags,
             'meta' => $parser->meta,
-        ]))->execute();
+        ]);
+        // $article = (new UpdateArticleAction([
+        //     'id' => $parser->id,
+        //     'title' => $parser->title,
+        //     'slug' => $parser->slug,
+        //     'summary' => $parser->summary,
+        //     'body' => $parser->body(),
+        //     'status' => $parser->status,
+        //     'featured_image' => $parser->featured_image,
+        //     'featured_image_caption' => $parser->featured_image_caption,
+        //     'topics' => $parser->topics,
+        //     'tags' => $parser->tags,
+        //     'meta' => $parser->meta,
+        // ]))->execute();
 
         $this->info("Article ({$article->title}) was published successfully.");
     }

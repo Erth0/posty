@@ -36,11 +36,23 @@ class SynchronizeArticlesCommand extends Command
         ->each(function($file) {
             $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-            $article = Article::find($parser->id);
+            $article = app(Project::class)->getArticle($parser->id);
             if(! $article) {
                 $this->info("Article couldn't be found in the database, skipping...");
                 return;
             }
+            $article = app(Project::class)->updateArticle($parser->id, [
+                'title' => $parser->title,
+                'slug' => $parser->slug,
+                'summary' => $parser->summary,
+                'body' => $parser->body(),
+                'status' => $parser->status,
+                'featured_image' => $parser->featured_image,
+                'featured_image_caption' => $parser->featured_image_caption,
+                'topics' => $parser->topics,
+                'tags' => $parser->tags,
+                'meta' => $parser->meta,
+            ]);
 
             (new UpdateArticleAction($article, [
                 'title' => $parser->title,

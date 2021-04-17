@@ -33,8 +33,13 @@ class Project
         return $this->adapter->getArticle($slug);
     }
 
-    public function createInitialArticle(array $data)
+    public function createArticle(array $data)
     {
-        return $this->adapter->createInitialArticle($data);
+        return $this->adapter->createArticle($data);
+    }
+
+    public function deleteArticle(int $id)
+    {
+        return $this->adapter->deleteArticle($id);
     }
 }

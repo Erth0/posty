@@ -42,13 +42,12 @@ class UpdateArticleCommand extends Command
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-        $article = Article::find($articleId = $parser->id);
+        $article = app(Project::class)->getArticle($parser->id);
         if(! $article) {
-            Helpers::abort("Article couldn't be found in the database with ID: {$articleId}");
+            Helpers::abort("Article couldn't be found in the database with ID: {$parser->id}");
         }
 
-        (new UpdateArticleAction([
-            'id' => $parser->id,
+        $article = app(Project::class)->updateArticle($parser->id, [
             'title' => $parser->title,
             'slug' => $parser->slug,
             'summary' => $parser->summary,
@@ -59,7 +58,7 @@ class UpdateArticleCommand extends Command
             'topics' => $parser->topics,
             'tags' => $parser->tags,
             'meta' => $parser->meta,
-        ]))->execute();
+        ]);
 
         $this->info("Article ({$article->title}) was updated successfully.");
     }

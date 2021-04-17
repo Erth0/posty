@@ -45,7 +45,7 @@ class DeleteArticleCommand extends Command
             Helpers::abort('Article id is required to find the article');
         }
 
-        $article = Article::find($parser->id);
+        $article = app(Project::class)->getArticle($parser->id);
 
         if(! $article) {
             Helpers::abort("Article ({$article->id}) does not exists in the database");
@@ -54,7 +54,7 @@ class DeleteArticleCommand extends Command
         $confirmation = $this->confirm("Are you sure your would like to delete this article: ({$article->title})");
 
         if($confirmation) {
-            $article->delete();
+            app(Project::class)->deleteArticle($parser->id);
 
             unlink($file);
 

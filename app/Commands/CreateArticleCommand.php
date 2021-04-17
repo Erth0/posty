@@ -41,12 +41,7 @@ class CreateArticleCommand extends Command
         $details['topic'] = implode(',', $this->choice('Topics', $topics, null, null, true));
         $details['tags'] = implode(',', $this->choice('Tags', $tags, null, null, true));
 
-        $article = app(Project::class)->createInitialArticle($details);
-
-        $article = Article::create([
-            'title' => $details['title'],
-            'summary' => $details['summary']
-        ]);
+        $article = app(Project::class)->createArticle($details);
 
         $details['id'] = $article->id;
 
