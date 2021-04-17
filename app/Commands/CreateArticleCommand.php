@@ -6,13 +6,12 @@ use App\Helpers;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Models\Topic;
+use App\Project;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
 class CreateArticleCommand extends Command
 {
-    protected $project;
-
     /**
      * Configure the command options.
      *
@@ -32,16 +31,17 @@ class CreateArticleCommand extends Command
      */
     public function handle()
     {
-        $this->project = Helpers::project();
+        $topics = collect(app(Project::class)->getTopics())->flatten()->toArray();
+        $tags = collect(app(Project::class)->getTags())->flatten()->toArray();
 
         $details = [];
         $details['title'] = $this->ask('Title');
         $details['status'] = $this->choice('Status', ['draft', 'published'], 'published');
         $details['summary'] = $this->ask('Summary');
-        $topics = Topic::select('slug')->pluck('slug')->toArray();
-        $tags = Tag::select('slug')->pluck('slug')->toArray();
         $details['topic'] = implode(',', $this->choice('Topics', $topics, null, null, true));
         $details['tags'] = implode(',', $this->choice('Tags', $tags, null, null, true));
+
+        $article = app(Project::class)->createInitialArticle($details);
 
         $article = Article::create([
             'title' => $details['title'],

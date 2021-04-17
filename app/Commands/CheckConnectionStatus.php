@@ -2,22 +2,12 @@
 
 namespace App\Commands;
 
-use Exception;
-use App\Helpers;
-use App\Services\PostyProject;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
+use App\Project;
+use App\Exceptions\ConnectionFailedException;
 use LaravelZero\Framework\Commands\Command;
 
 class CheckConnectionStatus extends Command
 {
-    protected $project;
-
-    public function __construct(PostyProject $project)
-    {
-        dd($project);
-    }
-
     /**
      * Configure the command options.
      *
@@ -36,17 +26,13 @@ class CheckConnectionStatus extends Command
      */
     public function handle()
     {
-        $project = Helpers::project();
-
-        $response = Http::withToken('UiLFSdcFn04tcZ55Jcgx1oK8Tbh5Fk7d')->get($project['api']['endpoint'] . 'posty/test')->object();
-        dd($response->success);
-
-        $this->task('Checking if a connection can be made', function() {
+        dd(app(Project::class)->getArticle('first-article'));
+        $this->task('Checking if a connection can be made', function () {
             try {
-                DB::connection()->getPdo();
+                app(Project::class)->testConnection();
 
                 return true;
-            } catch (Exception $e) {
+            } catch (ConnectionFailedException $e) {
                 return false;
             }
         });

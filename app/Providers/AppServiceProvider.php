@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use App\Adapters\ApiAdapter;
+use App\Adapters\DatabaseAdapter;
 use App\Helpers;
-use App\Services\PostyProject;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Config;
+use App\Project;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,11 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        dd(app(PostyProject::class));
-
-        $project = Helpers::project();
-        Config::set("database.connections.{$project['project']}", $project[$project['default_connection']]);
-        DB::setDefaultConnection($project['project']);
+        //
     }
 
     /**
@@ -31,8 +27,21 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(PostyProject::class, function ($app) {
-            return new PostyProject(Helpers::project());
+        $this->app->singleton(Project::class, function ($app) {
+            return new Project($this->registerProjectAdapter());
         });
+    }
+
+    public function registerProjectAdapter()
+    {
+        $project = Helpers::project();
+
+        $adapters = [
+            'api' => ApiAdapter::class,
+            'database' => DatabaseAdapter::class,
+            'ssh' => SecureShellAdapter::class,
+        ];
+
+        return new $adapters[$project['default_connection']]($project);
     }
 }
