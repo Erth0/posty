@@ -30,36 +30,15 @@ class LinkProjectCommand extends Command
         $projectDetails = [];
         $projectName = $this->ask("Please provide a project name?");
         $projectKeyName = strtolower($projectName);
-        if(Config::has($projectKeyName)) {
+        if (Config::has($projectKeyName)) {
             Helpers::abort('This project is already linked.');
         }
 
         $projectDetails['name'] = $projectName;
         $projectDetails['project'] = $projectKeyName;
         $projectDetails['local_path'] = Path::current();
-        $projectDetails['default_connection'] = $connection = $this->choice('What is your prefered project connection?', ['api', 'database', 'ssh']);
-
-        if($connection === 'api') {
-            $projectDetails[$connection]['base_url'] = $this->ask('Api Endpoint');
-            $projectDetails[$connection]['api_key'] = $this->ask('Api Key');
-        }
-
-        if($connection === 'ssh') {
-            $projectDetails[$connection]['host'] = $this->ask('Remote Host');
-            $projectDetails[$connection]['port'] = $this->ask('Remote Port', 22);
-            $projectDetails[$connection]['user'] = $this->ask('Remote User');
-            $projectDetails[$connection]['path'] = $this->ask('Remote Path');
-        }
-
-        if($connection === 'database') {
-            $projectDetails[$connection]['driver'] = $this->ask('Database Driver', 'mysql');
-            $projectDetails[$connection]['url'] = $this->ask('Database URL', null);
-            $projectDetails[$connection]['host'] = $this->ask('Database Host', '127.0.0.1');
-            $projectDetails[$connection]['port'] = $this->ask('Database Port', '3306');
-            $projectDetails[$connection]['database'] = $this->ask('Database Name', 'posty');
-            $projectDetails[$connection]['username'] = $this->ask('Database Username', 'posty');
-            $projectDetails[$connection]['password'] = $this->secret('Database Password');
-        }
+        $projectDetails['base_url'] = $this->ask('Api Endpoint');
+        $projectDetails['api_key'] = $this->ask('Api Key');
 
         Config::set($projectKeyName, $projectDetails);
 
