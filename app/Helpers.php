@@ -55,17 +55,11 @@ class Helpers
      */
     public static function project($name = null)
     {
-        $project = $name
+        return $name
             ? Config::get(strtolower($name))
             : collect(Config::load())->first(function ($project) {
                 return $project['local_path'] === getcwd();
             });
-
-        if (! $project) {
-            static::abort("No project linked with the current folder: " . getcwd());
-        }
-
-        return $project;
     }
 
     /**

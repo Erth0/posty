@@ -1194,16 +1194,16 @@
         },
         {
             "name": "illuminate/http",
-            "version": "v8.15.0",
+            "version": "v8.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/http.git",
-                "reference": "7b294d04533a95d9c749985ccf2d3eaba7ffa434"
+                "reference": "c5a463f287d830087bcb354c61017340a45e936b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/http/zipball/7b294d04533a95d9c749985ccf2d3eaba7ffa434",
-                "reference": "7b294d04533a95d9c749985ccf2d3eaba7ffa434",
+                "url": "https://api.github.com/repos/illuminate/http/zipball/c5a463f287d830087bcb354c61017340a45e936b",
+                "reference": "c5a463f287d830087bcb354c61017340a45e936b",
                 "shasum": ""
             },
             "require": {
@@ -1213,9 +1213,9 @@
                 "illuminate/session": "^8.0",
                 "illuminate/support": "^8.0",
                 "php": "^7.3|^8.0",
-                "symfony/http-foundation": "^5.1",
-                "symfony/http-kernel": "^5.1",
-                "symfony/mime": "^5.1"
+                "symfony/http-foundation": "^5.1.4",
+                "symfony/http-kernel": "^5.1.4",
+                "symfony/mime": "^5.1.4"
             },
             "suggest": {
                 "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image().",
@@ -1248,7 +1248,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2020-11-12T21:58:28+00:00"
+            "time": "2021-04-12T15:26:57+00:00"
         },
         {
             "name": "illuminate/macroable",

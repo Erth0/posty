@@ -3,10 +3,7 @@
         "name": "Mukja",
         "project": "mukja",
         "local_path": "\/Users\/eth0\/emukja",
-        "default_connection": "api",
-        "api": {
-            "base_url": "http:\/\/mukja.wip\/",
-            "api_key": "SBILxeTUSGxoPCWvOqqWBe7o7E6Vbceb"
-        }
+        "base_url": "http:\/\/mukja.wip\/",
+        "api_key": "SBILxeTUSGxoPCWvOqqWBe7o7E6Vbceb"
     }
 }

@@ -2,10 +2,8 @@
 
 namespace App\Commands;
 
-use App\Project;
-use App\Exceptions\ConnectionFailedException;
-use LaravelZero\Framework\Commands\Command;
-
+use App\Posty;
+use App\Command;
 class CheckConnectionStatus extends Command
 {
     /**
@@ -26,15 +24,12 @@ class CheckConnectionStatus extends Command
      */
     public function handle()
     {
-        dd(app(Project::class)->getArticle('first-article'));
-        $this->task('Checking if a connection can be made', function () {
-            try {
-                app(Project::class)->testConnection();
+        $response = $this->client->get('posty/test');
 
-                return true;
-            } catch (ConnectionFailedException $e) {
-                return false;
-            }
+        dd($response, 'to command');
+
+        $this->task('Testing posty connection', function() {
+            return app(Posty::class)->get('posty/test')->ok();
         });
     }
 }
