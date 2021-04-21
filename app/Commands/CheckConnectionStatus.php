@@ -2,7 +2,6 @@
 
 namespace App\Commands;
 
-use App\Posty;
 use App\Command;
 class CheckConnectionStatus extends Command
 {
@@ -24,12 +23,8 @@ class CheckConnectionStatus extends Command
      */
     public function handle()
     {
-        $response = $this->client->get('posty/test');
-
-        dd($response, 'to command');
-
         $this->task('Testing posty connection', function() {
-            return app(Posty::class)->get('posty/test')->ok();
+            return $this->client->get('test')->ok();
         });
     }
 }

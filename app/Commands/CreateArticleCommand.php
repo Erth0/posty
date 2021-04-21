@@ -31,12 +31,12 @@ class CreateArticleCommand extends Command
      */
     public function handle()
     {
-        $topics = collect(app(Project::class)->getTopics())->flatten()->toArray();
+        $topics = collect($this->client->get('topics'))->flatten()->toArray();
         $tags = collect(app(Project::class)->getTags())->flatten()->toArray();
 
         $details = [];
         $details['title'] = $this->ask('Title');
-        $details['status'] = $this->choice('Status', ['draft', 'published'], 'published');
+        $details['status'] = $this->choice('Status', ['published', 'draft'], 'published');
         $details['summary'] = $this->ask('Summary');
         $details['topic'] = implode(',', $this->choice('Topics', $topics, null, null, true));
         $details['tags'] = implode(',', $this->choice('Tags', $tags, null, null, true));

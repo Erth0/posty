@@ -29,7 +29,7 @@ class PostyClient extends PendingRequest
             $this->handleRequestError($response);
         }
 
-        return $response->json();
+        return $response;
     }
 
     protected function handleRequestError(Response $response)
