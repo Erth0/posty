@@ -2,10 +2,9 @@
 
 namespace App\Commands;
 
+use App\Command;
 use App\Helpers;
 use Illuminate\Support\Str;
-use App\Actions\UpdateArticleAction;
-use LaravelZero\Framework\Commands\Command;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -42,7 +41,7 @@ class PublishArticleCommand extends Command
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-        $article = app(Project::class)->updateArticle($parser->id, [
+        $article = $this->client->put("articles/{$parser->id}", [
             'title' => $parser->title,
             'slug' => $parser->slug,
             'summary' => $parser->summary,
@@ -54,20 +53,7 @@ class PublishArticleCommand extends Command
             'tags' => $parser->tags,
             'meta' => $parser->meta,
         ]);
-        // $article = (new UpdateArticleAction([
-        //     'id' => $parser->id,
-        //     'title' => $parser->title,
-        //     'slug' => $parser->slug,
-        //     'summary' => $parser->summary,
-        //     'body' => $parser->body(),
-        //     'status' => $parser->status,
-        //     'featured_image' => $parser->featured_image,
-        //     'featured_image_caption' => $parser->featured_image_caption,
-        //     'topics' => $parser->topics,
-        //     'tags' => $parser->tags,
-        //     'meta' => $parser->meta,
-        // ]))->execute();
 
-        $this->info("Article ({$article->title}) was published successfully.");
+        $this->info("Article ({$article['title']}) was published successfully.");
     }
 }

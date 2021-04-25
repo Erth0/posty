@@ -2,10 +2,9 @@
 
 namespace App\Commands;
 
+use App\Command;
 use App\Helpers;
-use App\Models\Article;
 use Illuminate\Support\Str;
-use LaravelZero\Framework\Commands\Command;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -45,20 +44,20 @@ class DeleteArticleCommand extends Command
             Helpers::abort('Article id is required to find the article');
         }
 
-        $article = app(Project::class)->getArticle($parser->id);
+        $article = $this->client->get("articles/{$parser->id}");
 
         if(! $article) {
-            Helpers::abort("Article ({$article->id}) does not exists in the database");
+            Helpers::abort("Article ({$parser->id}) does not exists in the database");
         }
 
-        $confirmation = $this->confirm("Are you sure your would like to delete this article: ({$article->title})");
+        $confirmation = $this->confirm("Are you sure your would like to delete this article: ({$article['title']})");
 
         if($confirmation) {
-            app(Project::class)->deleteArticle($parser->id);
+            $this->client->delete("articles/{$parser->id}");
 
             unlink($file);
 
-            $this->info("Article ({$article->title}) was deleted successfully");
+            $this->info("Article ({$article['title']}) was deleted successfully");
         }
     }
 }

@@ -17,13 +17,11 @@
     ],
     "require": {
         "php": "^7.3",
-        "calebporzio/sushi": "^2.2",
         "guzzlehttp/guzzle": "^6.5.5",
         "illuminate/database": "^8.0",
         "illuminate/http": "^8.0",
         "laminas/laminas-text": "^2.7",
         "laravel-zero/framework": "^8.0",
-        "spatie/crypto": "^1.0",
         "spatie/laravel-sluggable": "^2.6",
         "spatie/yaml-front-matter": "^2.0",
         "symfony/yaml": "^5.1"

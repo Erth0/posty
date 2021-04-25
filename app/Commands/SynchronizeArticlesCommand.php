@@ -2,10 +2,8 @@
 
 namespace App\Commands;
 
+use App\Command;
 use App\Helpers;
-use App\Models\Article;
-use App\Actions\UpdateArticleAction;
-use LaravelZero\Framework\Commands\Command;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 class SynchronizeArticlesCommand extends Command
@@ -18,6 +16,7 @@ class SynchronizeArticlesCommand extends Command
     public function configure()
     {
         $this->setName('sync')
+            ->setAliases(['synchronize'])
             ->setDescription('Synchronize Project Articles');
     }
 
@@ -36,12 +35,18 @@ class SynchronizeArticlesCommand extends Command
         ->each(function($file) {
             $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-            $article = app(Project::class)->getArticle($parser->id);
+            if(! $parser->id) {
+                return;
+            }
+
+            $article = $this->client->get("articles/{$parser->id}");
+
             if(! $article) {
                 $this->info("Article couldn't be found in the database, skipping...");
                 return;
             }
-            $article = app(Project::class)->updateArticle($parser->id, [
+
+            $article = $this->client->put("articles/{$parser->id}", [
                 'title' => $parser->title,
                 'slug' => $parser->slug,
                 'summary' => $parser->summary,
@@ -54,18 +59,7 @@ class SynchronizeArticlesCommand extends Command
                 'meta' => $parser->meta,
             ]);
 
-            (new UpdateArticleAction($article, [
-                'title' => $parser->title,
-                'slug' => $parser->slug,
-                'summary' => $parser->summary,
-                'body' => $parser->body(),
-                'status' => $parser->status,
-                'featured_image' => $parser->featured_image,
-                'featured_image_caption' => $parser->featured_image_caption,
-                'topics' => $parser->topics,
-                'tags' => $parser->tags,
-                'meta' => $parser->meta,
-            ]))->execute();
+            $this->info("Article with ID {$parser->id} was synchronized successfully.");
         });
     }
 }

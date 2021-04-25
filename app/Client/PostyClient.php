@@ -25,24 +25,24 @@ class PostyClient extends PendingRequest
     {
         $response = parent::send($method, $url, $options);
 
-        if(! $response->ok()) {
+        if(! $response->successful()) {
             $this->handleRequestError($response);
         }
 
-        return $response;
+        return $response->json();
     }
 
     protected function handleRequestError(Response $response)
     {
-        if ($response->getStatusCode() == 422) {
+        if ($response->status() == 422) {
             throw new ValidationException($response->json());
         }
 
-        if ($response->getStatusCode() == 404) {
+        if ($response->status() == 404) {
             throw new NotFoundException();
         }
 
-        if ($response->getStatusCode() == 400) {
+        if ($response->status() == 400) {
             throw new FailedActionException($response->body());
         }
 

@@ -2,13 +2,9 @@
 
 namespace App\Commands;
 
+use App\Command;
 use App\Helpers;
-use App\Models\Article;
-use App\Models\Tag;
-use App\Models\Topic;
-use App\Project;
-use Illuminate\Support\Str;
-use LaravelZero\Framework\Commands\Command;
+use Illuminate\Support\Facades\File;
 
 class CreateArticleCommand extends Command
 {
@@ -31,8 +27,10 @@ class CreateArticleCommand extends Command
      */
     public function handle()
     {
-        $topics = collect($this->client->get('topics'))->flatten()->toArray();
-        $tags = collect(app(Project::class)->getTags())->flatten()->toArray();
+        $project = Helpers::project();
+
+        $topics = collect($this->client->get('topics'))->pluck('slug')->toArray();
+        $tags = collect($this->client->get('tags'))->pluck('slug')->toArray();
 
         $details = [];
         $details['title'] = $this->ask('Title');
@@ -41,12 +39,12 @@ class CreateArticleCommand extends Command
         $details['topic'] = implode(',', $this->choice('Topics', $topics, null, null, true));
         $details['tags'] = implode(',', $this->choice('Tags', $tags, null, null, true));
 
-        $article = app(Project::class)->createArticle($details);
+        $article = $this->client->post('articles', $details);
 
-        $details['id'] = $article->id;
+        $details['id'] = $article['id'];
 
         file_put_contents(
-            $file = $this->project['local_path'] . "/{$article->slug}.md",
+            $file = $project['local_path'] . "/{$article['slug']}.md",
             $this->articleTemplate($details)
         );
 

@@ -2,11 +2,9 @@
 
 namespace App\Commands;
 
+use App\Command;
 use App\Helpers;
-use App\Models\Article;
 use Illuminate\Support\Str;
-use App\Actions\UpdateArticleAction;
-use LaravelZero\Framework\Commands\Command;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -41,13 +39,13 @@ class UpdateArticleCommand extends Command
         }
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
+        $article = $this->client->get("articles/{$parser->id}");
 
-        $article = app(Project::class)->getArticle($parser->id);
         if(! $article) {
             Helpers::abort("Article couldn't be found in the database with ID: {$parser->id}");
         }
 
-        $article = app(Project::class)->updateArticle($parser->id, [
+        $article = $this->client->put("articles/{$parser->id}", [
             'title' => $parser->title,
             'slug' => $parser->slug,
             'summary' => $parser->summary,
@@ -60,6 +58,6 @@ class UpdateArticleCommand extends Command
             'meta' => $parser->meta,
         ]);
 
-        $this->info("Article ({$article->title}) was updated successfully.");
+        $this->info("Article ({$article['title']}) was updated successfully.");
     }
 }
