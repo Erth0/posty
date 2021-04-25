@@ -6,7 +6,7 @@ use App\Config;
 use Illuminate\Support\Arr;
 use LaravelZero\Framework\Commands\Command;
 
-class ListPostyProjectsCommand extends Command
+class ListLinkedProjectsCommand extends Command
 {
     /**
      * Configure the command options.
