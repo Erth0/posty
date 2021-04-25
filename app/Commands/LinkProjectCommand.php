@@ -39,6 +39,7 @@ class LinkProjectCommand extends Command
         $projectDetails['local_path'] = Path::current();
         $projectDetails['base_url'] = $this->ask('Api Endpoint');
         $projectDetails['api_key'] = $this->ask('Api Key');
+        $projectDetails['posty_endpoint_prefix'] = $this->ask('Endpoint Prefix', config('posty.posty_endpoint_prefix'));
 
         Config::set($projectKeyName, $projectDetails);
 

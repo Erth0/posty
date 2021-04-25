@@ -1,9 +1,10 @@
 {
     "mukja": {
-        "name": "Mukja",
-        "project": "mukja",
+        "name": "mukja",
+        "project": "Mukja",
         "local_path": "\/Users\/eth0\/emukja",
         "base_url": "http:\/\/mukja.wip\/",
-        "api_key": "SBILxeTUSGxoPCWvOqqWBe7o7E6Vbceb"
+        "api_key": "xX9M6rGKlm7C9lC2ne73YXm2xknyZYfM",
+        "posty_endpoint_prefix": "_posty"
     }
 }
