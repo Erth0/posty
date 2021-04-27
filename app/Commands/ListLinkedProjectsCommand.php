@@ -30,7 +30,7 @@ class ListLinkedProjectsCommand extends Command
     public function handle()
     {
         $projects = collect(Config::load())->map(function($project) {
-            return Arr::only($project, ['project', 'local_path', 'base_url']);
+            return Arr::only($project, ['name', 'local_path', 'base_url']);
         })
         ->toArray();
 

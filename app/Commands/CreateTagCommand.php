@@ -33,7 +33,7 @@ class CreateTagCommand extends Command
 
         $tagName = $this->argument('name') ?? $this->ask('Tag name?');
 
-        $this->task('Creating a new tag', function() use($tagName) {
+        $this->task('Creating a new tag', function () use ($tagName) {
             $this->client->post('tags', [
                 'name' => $tagName,
             ]);
