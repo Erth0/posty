@@ -6,6 +6,7 @@ use App\Command;
 use App\Helpers;
 use Illuminate\Support\Str;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
+
 class UpdateArticleCommand extends Command
 {
     /**
@@ -41,7 +42,7 @@ class UpdateArticleCommand extends Command
         $parser = YamlFrontMatter::parse(file_get_contents($file));
         $article = $this->client->get("articles/{$parser->id}");
 
-        if(! $article) {
+        if (! $article) {
             Helpers::abort("Article couldn't be found in the database with ID: {$parser->id}");
         }
 

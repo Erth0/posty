@@ -33,13 +33,13 @@ class UnlinkProjectCommand extends Command
         $projectKeyName = $project['project'];
         $confirmation = $this->confirm("Are you sure you would like to unlink project {$projectKeyName}");
 
-        if($confirmation) {
-            $this->task("Unlink project {$projectKeyName}", function() use($projectKeyName) {
+        if ($confirmation) {
+            $this->task("Unlink project {$projectKeyName}", function () use ($projectKeyName) {
                 Config::forget($projectKeyName);
 
                 return true;
             });
-        }else {
+        } else {
             Helpers::abort('Aborting...');
         }
     }

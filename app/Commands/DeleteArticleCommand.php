@@ -36,25 +36,25 @@ class DeleteArticleCommand extends Command
         $article = $this->argument('article');
         $articleFileName = Str::endsWith($article, '.md') ? $article : $article . '.md';
 
-        if(! file_exists($file = $project['local_path'] . '/' . $articleFileName)) {
+        if (! file_exists($file = $project['local_path'] . '/' . $articleFileName)) {
             Helpers::abort("Article couldn't be found: " . $articleFileName);
         }
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-        if(! $parser->id) {
+        if (! $parser->id) {
             Helpers::abort('Article id is required to find the article');
         }
 
         $article = $this->client->get("articles/{$parser->id}");
 
-        if(! $article) {
+        if (! $article) {
             Helpers::abort("Article ({$parser->id}) does not exists in the database");
         }
 
         $confirmation = $this->confirm("Are you sure your would like to delete this article: ({$article['title']})");
 
-        if($confirmation) {
+        if ($confirmation) {
             $this->client->delete("articles/{$parser->id}");
 
             unlink($file);

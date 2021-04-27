@@ -27,7 +27,7 @@ class TestConnectionStatus extends Command
      */
     public function handle()
     {
-        $this->task('Testing posty connection', function() {
+        $this->task('Testing posty connection', function () {
             return $this->client->get('test')->ok();
         });
     }
