@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Command;
+use App\Helpers;
 
 class TestConnectionStatus extends Command
 {
@@ -27,6 +28,8 @@ class TestConnectionStatus extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $this->task('Testing posty connection', function () {
             return $this->client->get('test')->ok();
         });

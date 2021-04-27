@@ -14,7 +14,9 @@ class Command extends LaravelZeroCommand
     {
         $config = Helpers::project();
 
-        $this->client = (new PostyClient())->acceptJson()->baseUrl($config['base_url'] . 'posty')->withToken($config['api_key']);
+        if($config) {
+            $this->client = (new PostyClient())->acceptJson()->baseUrl($config['base_url'] . 'posty')->withToken($config['api_key']);
+        }
 
         parent::__construct();
     }

@@ -3,6 +3,8 @@
 namespace App\Commands;
 
 use App\Command;
+use App\Helpers;
+
 class CreateTagCommand extends Command
 {
     /**
@@ -27,6 +29,8 @@ class CreateTagCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $tagName = $this->argument('name') ?? $this->ask('Tag name?');
 
         $this->task('Creating a new tag', function() use($tagName) {

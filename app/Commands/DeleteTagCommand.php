@@ -29,6 +29,8 @@ class DeleteTagCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $slug = $this->argument('slug') ?? $this->ask('Tag slug?');
         $tag = $this->client->get("tags/{$slug}");
 

@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Command;
+use App\Helpers;
 
 class CreateTopicCommand extends Command
 {
@@ -28,6 +29,8 @@ class CreateTopicCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $topicName = $this->argument('name') ?? $this->ask('Topic name?');
 
         $this->task('Creating a new topic', function() use($topicName) {

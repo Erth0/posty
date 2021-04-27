@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Command;
+use App\Helpers;
 
 class UpdateTopicCommand extends Command
 {
@@ -28,6 +29,8 @@ class UpdateTopicCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $slug = $this->argument('slug') ?? $this->ask('Topic slug?');
         $topic = $this->client->get("topics/{$slug}");
         $name = $this->ask('Topic name?');

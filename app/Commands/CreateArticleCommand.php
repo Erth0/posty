@@ -28,6 +28,8 @@ class CreateArticleCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $project = Helpers::project();
 
         $topics = collect($this->client->get('topics'))->pluck('slug')->toArray();

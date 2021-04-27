@@ -31,6 +31,8 @@ class PublishArticleCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $project = Helpers::project();
 
         $article = $this->argument('article');

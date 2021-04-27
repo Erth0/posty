@@ -31,6 +31,8 @@ class UpdateProjectConfigurationCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $projectDetails = Helpers::project();
         $projectName = $this->ask("Please provide a project name?", $projectDetails['name']);
         $projectKeyName = strtolower($projectName);

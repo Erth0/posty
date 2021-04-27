@@ -29,6 +29,8 @@ class SynchronizeArticlesCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $project = Helpers::project();
         collect(scandir($project['local_path']))
         ->reject(function($file) {

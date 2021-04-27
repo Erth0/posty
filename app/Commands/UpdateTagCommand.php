@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Command;
+use App\Helpers;
 
 class UpdateTagCommand extends Command
 {
@@ -28,6 +29,8 @@ class UpdateTagCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $slug = $this->argument('slug') ?? $this->ask('Tag slug?');
         $tag = $this->client->get("tags/{$slug}");
         $name = $this->ask('Tag name?');

@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Command;
+use App\Helpers;
 use Illuminate\Support\Arr;
 
 class ListTopicsCommand extends Command
@@ -28,6 +29,8 @@ class ListTopicsCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $topics = collect($this->client->get('topics'))->map(function ($topic) {
             return Arr::only($topic, ['id', 'slug', 'name']);
         })

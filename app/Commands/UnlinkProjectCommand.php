@@ -29,6 +29,8 @@ class UnlinkProjectCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $project = Helpers::project();
         $projectKeyName = $project['project'];
         $confirmation = $this->confirm("Are you sure you would like to unlink project {$projectKeyName}");

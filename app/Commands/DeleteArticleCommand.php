@@ -32,6 +32,8 @@ class DeleteArticleCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $project = Helpers::project();
         $article = $this->argument('article');
         $articleFileName = Str::endsWith($article, '.md') ? $article : $article . '.md';

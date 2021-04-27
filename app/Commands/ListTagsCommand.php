@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Command;
+use App\Helpers;
 use Illuminate\Support\Arr;
 
 class ListTagsCommand extends Command
@@ -28,6 +29,8 @@ class ListTagsCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $tags = collect($this->client->get('tags'))->map(function ($tag) {
             return Arr::only($tag, ['id', 'slug', 'name']);
         })

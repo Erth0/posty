@@ -29,6 +29,8 @@ class DeleteTopicCommand extends Command
      */
     public function handle()
     {
+        Helpers::validate();
+
         $slug = $this->argument('slug') ?? $this->ask('Topic slug?');
         $topic = $this->client->get("topics/{$slug}");
 
