@@ -1,8 +1,7 @@
 {
-    "name": "mukja/posty",
-    "description": "Posty Cli",
-    "keywords": ["posty", "post-cli", "laravel-posty-cli", "posty-console"],
-    "homepage": "https://mukja.dev",
+    "name": "erth0/posty",
+    "description": "Posty is a simple way to manage your blog articles from the comfort of your computer with a simple to use CLI.",
+    "keywords": ["articles", "posty-laravel-zero", "laravel-zero", "console", "command", "posty", "posty-cli", "laravel-posty-cli", "posty-console"],
     "type": "project",
     "license": "MIT",
     "support": {
