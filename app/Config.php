@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Arr;
+
 class Config
 {
     /**
@@ -88,9 +89,9 @@ class Config
      */
     protected static function path()
     {
-        return '/Users/eth0/cli/posty/config.json';
-        return Path::current() . '/config.json';
-        dd($_SERVER['HOME'] ?? $_SERVER['USERPROFILE']);
-        return $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'] . '/.posty/config.json';
+        return '/Users/eth0/cli/posty/storage/config.json';
+        // return Path::current() . '/config.json';
+        // dd($_SERVER['HOME'] ?? $_SERVER['USERPROFILE']);
+        return Path::current() . '/.posty/config.json';
     }
 }

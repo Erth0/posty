@@ -1,37 +1,102 @@
-<p align="center">
-    <img title="Laravel Zero" height="100" src="https://raw.githubusercontent.com/laravel-zero/docs/master/images/logo/laravel-zero-readme.png" />
-</p>
 
-<p align="center">
-  <a href="https://github.com/laravel-zero/framework/actions"><img src="https://img.shields.io/github/workflow/status/laravel-zero/framework/Tests.svg" alt="Build Status"></img></a>
-  <a href="https://scrutinizer-ci.com/g/laravel-zero/framework"><img src="https://img.shields.io/scrutinizer/g/laravel-zero/framework.svg" alt="Quality Score"></img></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/dt/laravel-zero/framework.svg" alt="Total Downloads"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/v/laravel-zero/framework.svg?label=stable" alt="Latest Stable Version"></a>
-  <a href="https://packagist.org/packages/laravel-zero/framework"><img src="https://img.shields.io/packagist/l/laravel-zero/framework.svg" alt="License"></a>
-</p>
+![Posty](https://raw.githubusercontent.com/Erth0/posty/main/cover.png)
 
-<h4> <center>This is a <bold>community project</bold> and not an official Laravel one </center></h4>
+## Introduction
+Posty is a simple way to manage your blog articles from the comfort of your computer with a simple to use CLI.
 
-Laravel Zero was created by, and is maintained by [Nuno Maduro](https://github.com/nunomaduro), and is a micro-framework that provides an elegant starting point for your console application. It is an **unofficial** and customized version of Laravel optimized for building command-line applications.
+## Table of Contents
+- [Introduction](#introduction)
+- [Table of Contents](#table-of-contents)
+- [System Requirements](#system-requirements)
+- [Installation](#installation)
+- [Available Commands](#available-commands)
+- [Roadmap](#roadmap)
+- [Running Tests](#running-tests)
+- [License](#license)
+- [Credits](#credits)
+- [Badges](#badges)
+## System Requirements
+- PHP >= 7.3
+- One of the [four supported databases](https://laravel.com/docs/8.x/database#introduction) by Laravel
+## Installation
 
-- Built on top of the [Laravel](https://laravel.com) components.
-- Optional installation of Laravel [Eloquent](https://laravel-zero.com/docs/database/), Laravel [Logging](https://laravel-zero.com/docs/logging/) and many others.
-- Supports interactive [menus](https://laravel-zero.com/docs/build-interactive-menus/) and [desktop notifications](https://laravel-zero.com/docs/send-desktop-notifications/) on Linux, Windows & MacOS.
-- Ships with a [Scheduler](https://laravel-zero.com/docs/task-scheduling/) and  a [Standalone Compiler](https://laravel-zero.com/docs/build-a-standalone-application/).
-- Integration with [Collision](https://github.com/nunomaduro/collision) - Beautiful error reporting
+`composer global require mukja/posty`
 
-------
+From the project where you would like to add the blog posts you need to require the `posty-laravel-client`:
 
-## Documentation
+`composer require mukja/posty-laravel-client`
 
-For full documentation, visit [laravel-zero.com](https://laravel-zero.com/).
+After finishing with the installation of `posty-laravel-client` you need to generate the api key which will be used by the cli.
 
-## Support the development
-**Do you like this project? Support it by donating**
+`php artisan posty:generate`
 
-- PayPal: [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=66BYDWAT92N6L)
-- Patreon: [Donate](https://www.patreon.com/nunomaduro)
+This will generate the api key which you need to copy and save it for later use and you need to add the `POSTY_HASHED_API_KEY` env in your project environment.
+This will be used to connect the posty cli with your project.
+
+Next you need to create a folder in your local machine and `cd` in the folder then you need to run the `posty link` **command** so you can link the website you would like to manage the articles.
+You will be promted to enter few details such as:
+
+- Project Name (required)
+- API Endpoint (required)
+- API Endpoint Prefix (optional)
+- API Key (required)
+
+After all the configurations have been set you will get a success message and this folder is linked with the above project.
+To make sure the folder was linked successfully with the project you can test it with `posty test` **command**
+## Available Commands
+- `posty test` (This wil test the connection between cli and the client)
+- `projects:list` (This will list all the linked folders with projects)
+- `posty link` (This will link the folder you are in with the desired project)
+- `posty unlink` (This will unlink the folder you are in with the linked project)
+- `project:update` (This will update project configurations)
+- `posty topics:list` (This will list all the topics)
+- `posty topic:create` (This will create a new topic)
+- `posty topic:update` (This will update topic)
+- `posty topic:delete` (This will delete topic)
+- `posty tags:list` (This will list all the tags)
+- `posty tag:create` (This will create a new tag)
+- `posty tag:update` (This will update tag)
+- `posty tag:delete` (This will delete tag)
+- `posty create` (This will create a new draft article)
+- `posty update my-first-article.md` (This will update the article)
+- `posty delete my-first-article.md` (This will delete the article)
+- `posty sync` (This will synchronize all the articles within the linked project)
+
+
+
+## Roadmap
+
+- Additional browser support
+
+- Add more integrations
+
+
+
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+    ./vendor/bin/pest
+```
 
 ## License
 
-Laravel Zero is an open-source software licensed under the MIT license.
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
+## Credits
+
+- [@emukja](https://www.github.com/erth0) for development.
+
+
+## Badges
+
+Add badges from somewhere like: [shields.io](https://shields.io/)
+
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
+
+
+
+
+

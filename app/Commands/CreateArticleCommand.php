@@ -4,21 +4,21 @@ namespace App\Commands;
 
 use App\Command;
 use App\Helpers;
-use Illuminate\Support\Facades\File;
-
 class CreateArticleCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('create')
-            ->setAliases(['article:create', 'create:article'])
-            ->setDescription('Create a new article');
-    }
+    protected $signature = 'article:create';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a new draft article';
 
     /**
      * Execute the console command.

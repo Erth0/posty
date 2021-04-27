@@ -9,15 +9,18 @@ use LaravelZero\Framework\Commands\Command;
 class ListLinkedProjectsCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('projects:list')
-            ->setDescription('List all linked projects');
-    }
+    protected $signature = 'projects';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'List all linked projects';
 
     /**
      * Execute the console command.

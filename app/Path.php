@@ -5,46 +5,6 @@ namespace App;
 class Path
 {
     /**
-     * Get the path to the built application.
-     *
-     * @return string
-     */
-    public static function app()
-    {
-        return static::build().'/app';
-    }
-
-    /**
-     * Get the path to the vendor directory.
-     *
-     * @return string
-     */
-    public static function vendor()
-    {
-        return static::build().'/vendor';
-    }
-
-    /**
-     * Get the path to the deployment artifact.
-     *
-     * @return string
-     */
-    public static function artifact()
-    {
-        return getcwd().'/.posty/build/app.zip';
-    }
-
-    /**
-     * Get the path to the deployment artifact.
-     *
-     * @return string
-     */
-    public static function vendorArtifact()
-    {
-        return getcwd().'/.posty/build/vendor.zip';
-    }
-
-    /**
      * Get the path to the built application's public directory.
      *
      * @return string
@@ -72,16 +32,6 @@ class Path
     public static function current()
     {
         return getcwd();
-    }
-
-    /**
-     * Get the path to the project's manifest file.
-     *
-     * @return string
-     */
-    public static function manifest()
-    {
-        return getcwd().'/posty.yml';
     }
 
     /**

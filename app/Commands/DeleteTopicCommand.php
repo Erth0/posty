@@ -8,16 +8,19 @@ use App\Helpers;
 class DeleteTopicCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('topics:delete')
-            ->setAliases(['topic:delete', 'delete:topics', 'delete:topic'])
-            ->setDescription('Delete topic');
-    }
+    protected $signature = 'topic:delete
+                            {slug? : Topic slug}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Delete topic';
 
     /**
      * Execute the console command.
@@ -26,13 +29,13 @@ class DeleteTopicCommand extends Command
      */
     public function handle()
     {
-        $slug = $this->ask('Topic slug?');
+        $slug = $this->argument('slug') ?? $this->ask('Topic slug?');
         $topic = $this->client->get("topics/{$slug}");
 
         $confirmation = $this->confirm("Are you sure you would like to delete ({$topic['name']}) topic?");
 
         if($confirmation) {
-            $this->task("Deleting ({$topic['name']}) tag", function () use ($topic) {
+            $this->task("Deleting ({$topic['name']}) topic", function () use ($topic) {
                 $this->client->delete("topics/{$topic['slug']}");
             });
         }else {

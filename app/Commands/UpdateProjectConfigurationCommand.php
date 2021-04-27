@@ -10,15 +10,19 @@ use LaravelZero\Framework\Commands\Command;
 class UpdateProjectConfigurationCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('project:update')
-            ->setDescription('Update project configuration settings.');
-    }
+    protected $signature = 'update';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Update project configuration settings';
+
 
     /**
      * Execute the console command.
@@ -28,10 +32,6 @@ class UpdateProjectConfigurationCommand extends Command
     public function handle()
     {
         $projectDetails = Helpers::project();
-        if(! $projectDetails) {
-            Helpers::abort('Project not found in this folder');
-        }
-
         $projectName = $this->ask("Please provide a project name?", $projectDetails['name']);
         $projectKeyName = strtolower($projectName);
         $projectDetails['name'] = $projectName;

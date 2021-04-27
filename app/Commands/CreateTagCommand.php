@@ -3,20 +3,22 @@
 namespace App\Commands;
 
 use App\Command;
-
 class CreateTagCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('tags:create')
-            ->setAliases(['create:tags', 'tag:create', 'create:tag'])
-            ->setDescription('Create a new tag');
-    }
+    protected $signature = 'tag:create
+                            {name? : Tag name}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a new tag';
 
     /**
      * Execute the console command.
@@ -25,7 +27,7 @@ class CreateTagCommand extends Command
      */
     public function handle()
     {
-        $tagName = $this->ask('Tag name?');
+        $tagName = $this->argument('name') ?? $this->ask('Tag name?');
 
         $this->task('Creating a new tag', function() use($tagName) {
             $this->client->post('tags', [

@@ -5,21 +5,22 @@ namespace App\Commands;
 use App\Config;
 use App\Helpers;
 use LaravelZero\Framework\Commands\Command;
-use Symfony\Component\Console\Input\InputArgument;
 
 class UnlinkProjectCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('unlink')
-            ->addArgument('project', InputArgument::OPTIONAL, "Project Name")
-            ->setDescription('Unlink Project');
-    }
+    protected $signature = 'unlink';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Unlink current folder from the projects list';
 
     /**
      * Execute the console command.
@@ -28,12 +29,8 @@ class UnlinkProjectCommand extends Command
      */
     public function handle()
     {
-        $projectKeyName = strtolower($this->argument('project') ?? $this->ask("Project Name"));
-
-        if(! Config::has($projectKeyName)) {
-            Helpers::abort("The project ({$projectKeyName}) doesn't exists please check project name was correct");
-        }
-
+        $project = Helpers::project();
+        $projectKeyName = $project['project'];
         $confirmation = $this->confirm("Are you sure you would like to unlink project {$projectKeyName}");
 
         if($confirmation) {

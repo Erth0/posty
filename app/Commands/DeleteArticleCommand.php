@@ -6,22 +6,24 @@ use App\Command;
 use App\Helpers;
 use Illuminate\Support\Str;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
-use Symfony\Component\Console\Input\InputArgument;
 
 class DeleteArticleCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('delete')
-            ->setAliases(['remove'])
-            ->addArgument('article', InputArgument::OPTIONAL, "Article file name to be deleted")
-            ->setDescription('Delete Article');
-    }
+    protected $signature = 'article:delete
+                            {article : The article file name to be deleted}
+                            {--P|permanently : Whether the article should be permanently}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Delete article';
 
     /**
      * Execute the console command.
@@ -31,7 +33,7 @@ class DeleteArticleCommand extends Command
     public function handle()
     {
         $project = Helpers::project();
-        $article = $this->argument('article') ?? $this->ask('Article file name');
+        $article = $this->argument('article');
         $articleFileName = Str::endsWith($article, '.md') ? $article : $article . '.md';
 
         if(! file_exists($file = $project['local_path'] . '/' . $articleFileName)) {

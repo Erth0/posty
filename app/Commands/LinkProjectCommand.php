@@ -10,15 +10,18 @@ use LaravelZero\Framework\Commands\Command;
 class LinkProjectCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('link')
-            ->setDescription('Link a local folder with a blog project');
-    }
+    protected $signature = 'link';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Link current folder with a posty project';
 
     /**
      * Execute the console command.

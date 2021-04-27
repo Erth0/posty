@@ -7,16 +7,19 @@ use App\Command;
 class CreateTopicCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('topics:create')
-            ->setAliases(['topic:create', 'create:topics', 'create:topic'])
-            ->setDescription('Create a new topic');
-    }
+    protected $signature = 'topic:create
+                            {name? : Topic name}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a new topic';
 
     /**
      * Execute the console command.
@@ -25,7 +28,7 @@ class CreateTopicCommand extends Command
      */
     public function handle()
     {
-        $topicName = $this->ask('Topic name?');
+        $topicName = $this->argument('name') ?? $this->ask('Topic name?');
 
         $this->task('Creating a new topic', function() use($topicName) {
             $this->client->post('topics', [

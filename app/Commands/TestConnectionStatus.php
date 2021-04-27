@@ -3,18 +3,22 @@
 namespace App\Commands;
 
 use App\Command;
-class CheckConnectionStatus extends Command
+
+class TestConnectionStatus extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('test')
-            ->setDescription('Check posty connection');
-    }
+    protected $signature = 'test';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Test posty connection';
 
     /**
      * Execute the console command.

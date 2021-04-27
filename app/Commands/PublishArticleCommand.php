@@ -6,22 +6,23 @@ use App\Command;
 use App\Helpers;
 use Illuminate\Support\Str;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
-use Symfony\Component\Console\Input\InputArgument;
 
 class PublishArticleCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('publish')
-            ->setAliases(['push'])
-            ->addArgument('article', InputArgument::OPTIONAL, "Article name to be published")
-            ->setDescription('Publish Article');
-    }
+    protected $signature = 'article:publish
+                            {article : The article file name to be published}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Publish article';
 
     /**
      * Execute the console command.
@@ -32,7 +33,7 @@ class PublishArticleCommand extends Command
     {
         $project = Helpers::project();
 
-        $article = $this->argument('article') ?? $this->ask('Article file name');
+        $article = $this->argument('article');
         $articleFileName = Str::endsWith($article, '.md') ? $article : $article . '.md';
 
         if (! file_exists($file = $project['local_path'] . '/' . $articleFileName)) {

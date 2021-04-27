@@ -8,16 +8,19 @@ use App\Helpers;
 class DeleteTagCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('tags:delete')
-            ->setAliases(['tag:delete', 'delete:tags', 'delete:tag'])
-            ->setDescription('Delete tag');
-    }
+    protected $signature = 'tag:delete
+                            {slug? : Tag slug}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Delete tag';
 
     /**
      * Execute the console command.
@@ -26,7 +29,7 @@ class DeleteTagCommand extends Command
      */
     public function handle()
     {
-        $slug = $this->ask('Tag slug?');
+        $slug = $this->argument('slug') ?? $this->ask('Tag slug?');
         $tag = $this->client->get("tags/{$slug}");
 
         $confirmation = $this->confirm("Are you sure you would like to delete ({$tag['name']}) tag?");

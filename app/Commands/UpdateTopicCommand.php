@@ -7,16 +7,19 @@ use App\Command;
 class UpdateTopicCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('topics:update')
-            ->setAliases(['topic:update', 'update:topics', 'update:topic'])
-            ->setDescription('Update topic');
-    }
+    protected $signature = 'topic:update
+                            {slug? : Topic slug}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Update topic';
 
     /**
      * Execute the console command.
@@ -25,7 +28,7 @@ class UpdateTopicCommand extends Command
      */
     public function handle()
     {
-        $slug = $this->ask('Topic slug?');
+        $slug = $this->argument('slug') ?? $this->ask('Topic slug?');
         $topic = $this->client->get("topics/{$slug}");
         $name = $this->ask('Topic name?');
 

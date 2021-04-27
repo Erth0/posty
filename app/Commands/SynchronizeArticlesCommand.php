@@ -9,16 +9,18 @@ use Spatie\YamlFrontMatter\YamlFrontMatter;
 class SynchronizeArticlesCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('sync')
-            ->setAliases(['synchronize'])
-            ->setDescription('Synchronize Project Articles');
-    }
+    protected $signature = 'article:sync';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Synchronize all articles for this project';
 
     /**
      * Execute the console command.

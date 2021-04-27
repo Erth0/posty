@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Http\Client\PendingRequest;
 
-class Posty
+class Posty extends PendingRequest
 {
     protected $config;
 

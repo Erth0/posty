@@ -8,16 +8,18 @@ use Illuminate\Support\Arr;
 class ListTopicsCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('topics:list')
-            ->setAliases(['topics:all'])
-            ->setDescription('List all topics');
-    }
+    protected $signature = 'topic:list';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'List all topics';
 
     /**
      * Execute the console command.

@@ -8,16 +8,18 @@ use Illuminate\Support\Arr;
 class ListTagsCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('tags:list')
-            ->setAliases(['tags:all'])
-            ->setDescription('List all tags');
-    }
+    protected $signature = 'tag:list';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'List all tags';
 
     /**
      * Execute the console command.

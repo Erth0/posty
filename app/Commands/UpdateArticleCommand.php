@@ -6,21 +6,21 @@ use App\Command;
 use App\Helpers;
 use Illuminate\Support\Str;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
-use Symfony\Component\Console\Input\InputArgument;
-
 class UpdateArticleCommand extends Command
 {
     /**
-     * Configure the command options.
+     * The name and signature of the console command.
      *
-     * @return void
+     * @var string
      */
-    public function configure()
-    {
-        $this->setName('update')
-            ->addArgument('article', InputArgument::OPTIONAL, "Article name to be published")
-            ->setDescription('Publish Article');
-    }
+    protected $signature = 'article:update {article?}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Update article';
 
     /**
      * Execute the console command.
