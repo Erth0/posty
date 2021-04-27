@@ -2,7 +2,6 @@
 
 namespace App\Exceptions;
 
-use App\Helpers;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -27,7 +26,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        Helpers::abort($exception->getMessage());
-        // parent::report($exception);
+        // Helpers::abort($exception->getMessage());
+        parent::report($exception);
     }
 }

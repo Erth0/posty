@@ -20,11 +20,11 @@ Posty is a simple way to manage your blog articles from the comfort of your comp
 - One of the [four supported databases](https://laravel.com/docs/8.x/database#introduction) by Laravel
 ## Installation
 
-`composer global require mukja/posty`
+`composer global require erth0/posty`
 
 From the project where you would like to add the blog posts you need to require the `posty-laravel-client`:
 
-`composer require mukja/posty-laravel-client`
+`composer require erth0/posty-laravel-client`
 
 After finishing with the installation of `posty-laravel-client` you need to generate the api key which will be used by the cli.
 
