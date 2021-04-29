@@ -54,14 +54,4 @@ class Helpers
             Helpers::abort("No project linked with the current folder: " . getcwd());
         }
     }
-
-    /**
-     * Get the home directory for the user.
-     *
-     * @return string
-     */
-    public static function home()
-    {
-        return $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'];
-    }
 }
