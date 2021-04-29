@@ -46,5 +46,7 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "bin": ["posty"]
+    "bin": [
+        "builds/posty"
+    ]
 }
