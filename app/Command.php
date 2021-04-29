@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Client\PostyClient;
-use App\Helpers;
+use App\Models\Project;
 use LaravelZero\Framework\Commands\Command as LaravelZeroCommand;
 
 class Command extends LaravelZeroCommand
@@ -12,10 +12,10 @@ class Command extends LaravelZeroCommand
 
     public function __construct()
     {
-        $config = Helpers::project();
+        $project = Project::findByPath(Path::current());
 
-        if($config) {
-            $this->client = (new PostyClient())->acceptJson()->baseUrl($config['base_url'] . 'posty')->withToken($config['api_key']);
+        if($project) {
+            $this->client = (new PostyClient())->acceptJson()->baseUrl($project->endpoint . '/' . $project->endpoint_prefix)->withToken($project->auth_token);
         }
 
         parent::__construct();

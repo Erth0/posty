@@ -4,6 +4,8 @@ namespace App\Commands;
 
 use App\Command;
 use App\Helpers;
+use App\Models\Project;
+use App\Path;
 
 class CreateArticleCommand extends Command
 {
@@ -30,7 +32,7 @@ class CreateArticleCommand extends Command
     {
         Helpers::validate();
 
-        $project = Helpers::project();
+        $project = Project::findByPath(Path::current());
 
         $topics = collect($this->client->get('topics'))->pluck('slug')->toArray();
         $tags = collect($this->client->get('tags'))->pluck('slug')->toArray();

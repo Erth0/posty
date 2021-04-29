@@ -31,7 +31,7 @@ class TestConnectionStatus extends Command
         Helpers::validate();
 
         $this->task('Testing posty connection', function () {
-            return $this->client->get('test')->ok();
+            return $this->client->get('test');
         });
     }
 }

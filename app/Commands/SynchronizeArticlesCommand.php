@@ -2,8 +2,10 @@
 
 namespace App\Commands;
 
+use App\Path;
 use App\Command;
 use App\Helpers;
+use App\Models\Project;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 class SynchronizeArticlesCommand extends Command
@@ -31,8 +33,9 @@ class SynchronizeArticlesCommand extends Command
     {
         Helpers::validate();
 
-        $project = Helpers::project();
-        collect(scandir($project['local_path']))
+        $project = Project::findByPath(Path::current());
+
+        collect(scandir($project->path))
         ->reject(function($file) {
             return in_array($file, ['.', '..', '.DS_Store']);
         })

@@ -2,11 +2,10 @@
 
 namespace App\Commands;
 
-use App\Config;
-use Illuminate\Support\Arr;
+use App\Models\Project;
 use LaravelZero\Framework\Commands\Command;
 
-class ListLinkedProjectsCommand extends Command
+class ListProjectsCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -29,10 +28,7 @@ class ListLinkedProjectsCommand extends Command
      */
     public function handle()
     {
-        $projects = collect(Config::load())->map(function($project) {
-            return Arr::only($project, ['name', 'local_path', 'base_url']);
-        })
-        ->toArray();
+        $projects = Project::select('name', 'path', 'endpoint')->get()->toArray();
 
         $this->table(['Name', 'Local Path', 'Endpoint'], $projects);
     }

@@ -5,6 +5,7 @@ namespace App\Commands;
 use App\Path;
 use App\Config;
 use App\Helpers;
+use App\Models\Project;
 use LaravelZero\Framework\Commands\Command;
 
 class UpdateProjectConfigurationCommand extends Command
@@ -33,18 +34,14 @@ class UpdateProjectConfigurationCommand extends Command
     {
         Helpers::validate();
 
-        $projectDetails = Helpers::project();
-        $projectName = $this->ask("Please provide a project name?", $projectDetails['name']);
-        $projectKeyName = strtolower($projectName);
-        $projectDetails['name'] = $projectName;
-        $projectDetails['project'] = $projectKeyName;
-        $projectDetails['local_path'] = Path::current();
-        $projectDetails['base_url'] = $this->ask('Api Endpoint', $projectDetails['base_url']);
-        $projectDetails['api_key'] = $this->ask('Api Key', $projectDetails['api_key']);
-        $projectDetails['posty_endpoint_prefix'] = $this->ask('Endpoint Prefix', $projectDetails['posty_endpoint_prefix']);
+        $project = Project::findByPath(Path::current());
+        $project->update([
+            'name' => $this->ask("Please provide a project name?", $project->name),
+            'endpoint' => $this->ask('API Endpoint', $project->endpoint),
+            'endpoint_prefix' => $this->ask('API Endpoint Prefix', $project->endpoint_prefix),
+            'auth_token' => $this->ask('Authentication token', $project->auth_token),
+        ]);
 
-        Config::set($projectKeyName, $projectDetails);
-
-        $this->info("Project ({$projectDetails['name']}) was updated successfully.");
+        $this->info("Project ({$project->name}) was updated successfully.");
     }
 }

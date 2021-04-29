@@ -2,8 +2,9 @@
 
 namespace App\Commands;
 
-use App\Config;
+use App\Path;
 use App\Helpers;
+use App\Models\Project;
 use LaravelZero\Framework\Commands\Command;
 
 class UnlinkProjectCommand extends Command
@@ -29,17 +30,17 @@ class UnlinkProjectCommand extends Command
      */
     public function handle()
     {
-        Helpers::validate();
+        $project = Project::findByPath(Path::current());
 
-        $project = Helpers::project();
-        $projectKeyName = $project['project'];
-        $confirmation = $this->confirm("Are you sure you would like to unlink project {$projectKeyName}");
+        if(! $project) {
+            Helpers::abort("No project linked with the current folder: " . Path::current());
+        }
+
+        $confirmation = $this->confirm("Are you sure you would like to unlink project {$project->name}");
 
         if ($confirmation) {
-            $this->task("Unlink project {$projectKeyName}", function () use ($projectKeyName) {
-                Config::forget($projectKeyName);
-
-                return true;
+            $this->task("Unlink project {$project->name}", function () use ($project) {
+                return $project->delete();
             });
         } else {
             Helpers::abort('Aborting...');

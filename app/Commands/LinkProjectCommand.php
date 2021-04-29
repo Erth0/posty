@@ -2,9 +2,10 @@
 
 namespace App\Commands;
 
+use App\Path;
 use App\Config;
 use App\Helpers;
-use App\Path;
+use App\Models\Project;
 use LaravelZero\Framework\Commands\Command;
 
 class LinkProjectCommand extends Command
@@ -30,22 +31,20 @@ class LinkProjectCommand extends Command
      */
     public function handle()
     {
-        $projectDetails = [];
-        $projectName = $this->ask("Please provide a project name?");
-        $projectKeyName = strtolower($projectName);
-        if (Config::has($projectKeyName)) {
+        $project = Project::findByPath(Path::current());
+
+        if($project) {
             Helpers::abort('This project is already linked.');
         }
 
-        $projectDetails['name'] = $projectName;
-        $projectDetails['project'] = $projectKeyName;
-        $projectDetails['local_path'] = Path::current();
-        $projectDetails['base_url'] = $this->ask('Api Endpoint');
-        $projectDetails['api_key'] = $this->ask('Api Key');
-        $projectDetails['posty_endpoint_prefix'] = $this->ask('Endpoint Prefix', config('posty.posty_endpoint_prefix'));
+        $project = Project::create([
+            'name' => $this->ask("Please provide a project name?"),
+            'path' => Path::current(),
+            'endpoint' => $this->ask('API Endpoint'),
+            'endpoint_prefix' => $this->ask('API Endpoint Prefix', config('posty.posty_endpoint_prefix')),
+            'auth_token' => $this->ask('Authentication token'),
+        ]);
 
-        Config::set($projectKeyName, $projectDetails);
-
-        $this->info("Folder was linked successfully with project: {$projectName}");
+        $this->info("Folder was linked successfully with project: {$project->name}");
     }
 }

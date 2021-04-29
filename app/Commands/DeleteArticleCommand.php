@@ -2,8 +2,10 @@
 
 namespace App\Commands;
 
+use App\Path;
 use App\Command;
 use App\Helpers;
+use App\Models\Project;
 use Illuminate\Support\Str;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
@@ -34,11 +36,11 @@ class DeleteArticleCommand extends Command
     {
         Helpers::validate();
 
-        $project = Helpers::project();
+        $project = Project::findByPath(Path::current());
         $article = $this->argument('article');
         $articleFileName = Str::endsWith($article, '.md') ? $article : $article . '.md';
 
-        if (! file_exists($file = $project['local_path'] . '/' . $articleFileName)) {
+        if (! file_exists($file = $project->path . '/' . $articleFileName)) {
             Helpers::abort("Article couldn't be found: " . $articleFileName);
         }
 
