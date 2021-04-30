@@ -50,5 +50,10 @@
     "prefer-stable": true,
     "bin": [
         "builds/posty"
-    ]
+    ],
+    "scripts": {
+        "post-create-project-cmd": [
+            "@php posty install"
+        ]
+    }
 }

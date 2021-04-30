@@ -23,4 +23,14 @@ class Path
     {
         return getcwd().'/.posty';
     }
+
+    public static function home()
+    {
+        return $_SERVER['HOME'];
+    }
+
+    public static function databasePath()
+    {
+        return $_SERVER['HOME'] . '/.posty/';
+    }
 }
