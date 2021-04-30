@@ -53,7 +53,7 @@
     ],
     "scripts": {
         "post-create-project-cmd": [
-            "@php posty install"
+            "@php application install"
         ]
     }
 }
