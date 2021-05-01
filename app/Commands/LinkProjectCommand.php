@@ -5,6 +5,7 @@ namespace App\Commands;
 use App\Path;
 use App\Helpers;
 use App\Models\Project;
+use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
 class LinkProjectCommand extends Command
@@ -32,16 +33,20 @@ class LinkProjectCommand extends Command
     {
         $project = Project::findByPath(Path::current());
 
-        if($project) {
+        if ($project) {
             Helpers::abort('This project is already linked.');
         }
 
+        $name = $this->ask("Please provide a project name?");
+        $endpoint = $this->ask('API Endpoint');
+        $endpoint = Str::endsWith($endpoint, '/') ? Str::replaceLast('/', '', $endpoint) : $endpoint;
+
         $project = Project::create([
-            'name' => $this->ask("Please provide a project name?"),
+            'name' => $name,
             'path' => Path::current(),
-            'endpoint' => $this->ask('API Endpoint'),
+            'endpoint' => $endpoint,
             'endpoint_prefix' => $this->ask('API Endpoint Prefix', config('posty.posty_endpoint_prefix')),
-            'auth_token' => $this->ask('Authentication token'),
+            'auth_token' => trim($this->ask('Authentication token')),
         ]);
 
         $this->info("Folder was linked successfully with project: {$project->name}");

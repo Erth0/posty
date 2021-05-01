@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Path;
+use App\Models\Project;
+use App\Client\PostyClient;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +16,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->singleton(PostyClient::class, function() {
+            if(file_exists(Path::databasePath() . 'database.sqlite')) {
+                $project = Project::findByPath(Path::current());
+
+                if($project) {
+                    return (new PostyClient())->acceptJson()->baseUrl($project->endpoint . '/' . $project->endpoint_prefix)->withToken($project->auth_token);
+                }
+            }
+        });
     }
 
     /**
@@ -23,10 +34,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // $project = Project::findByPath(Path::current());
-
-        // if($project) {
-        //     $this->client = (new PostyClient())->acceptJson()->baseUrl($project->endpoint . '/' . $project->endpoint_prefix)->withToken($project->auth_token);
-        // }
+        //
     }
 }

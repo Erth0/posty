@@ -53,7 +53,6 @@
     ],
     "scripts": {
         "post-create-project-cmd": [
-            "@php application app:rename",
             "@php posty install"
         ]
     }

@@ -5,6 +5,7 @@ namespace App\Commands;
 use App\Path;
 use App\Helpers;
 use App\Models\Project;
+use App\Client\PostyClient;
 use LaravelZero\Framework\Commands\Command;
 
 class UpdateProjectConfigurationCommand extends Command
@@ -22,6 +23,20 @@ class UpdateProjectConfigurationCommand extends Command
      * @var string
      */
     protected $description = 'Update project configuration settings';
+
+    /**
+     * Posty Client
+     *
+     * @var \App\Client\PostyClient
+     */
+    protected $client;
+
+    public function __construct()
+    {
+        $this->client = app(PostyClient::class);
+
+        parent::__construct();
+    }
 
 
     /**

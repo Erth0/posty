@@ -5,6 +5,7 @@ namespace App\Commands;
 use App\Path;
 use App\Helpers;
 use App\Models\Project;
+use App\Client\PostyClient;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -25,6 +26,20 @@ class PublishArticleCommand extends Command
      * @var string
      */
     protected $description = 'Publish article';
+
+    /**
+     * Posty Client
+     *
+     * @var \App\Client\PostyClient
+     */
+    protected $client;
+
+    public function __construct()
+    {
+        $this->client = app(PostyClient::class);
+
+        parent::__construct();
+    }
 
     /**
      * Execute the console command.

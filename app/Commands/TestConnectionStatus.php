@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Helpers;
+use App\Client\PostyClient;
 use LaravelZero\Framework\Commands\Command;
 
 class TestConnectionStatus extends Command
@@ -20,6 +21,20 @@ class TestConnectionStatus extends Command
      * @var string
      */
     protected $description = 'Test posty connection';
+
+    /**
+     * Posty Client
+     *
+     * @var \App\Client\PostyClient
+     */
+    protected $client;
+
+    public function __construct()
+    {
+        $this->client = app(PostyClient::class);
+
+        parent::__construct();
+    }
 
     /**
      * Execute the console command.

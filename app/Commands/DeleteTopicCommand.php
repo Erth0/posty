@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Helpers;
+use App\Client\PostyClient;
 use LaravelZero\Framework\Commands\Command;
 
 class DeleteTopicCommand extends Command
@@ -21,6 +22,20 @@ class DeleteTopicCommand extends Command
      * @var string
      */
     protected $description = 'Delete topic';
+
+    /**
+     * Posty Client
+     *
+     * @var \App\Client\PostyClient
+     */
+    protected $client;
+
+    public function __construct()
+    {
+        $this->client = app(PostyClient::class);
+
+        parent::__construct();
+    }
 
     /**
      * Execute the console command.

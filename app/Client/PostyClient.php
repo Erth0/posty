@@ -7,6 +7,7 @@ use Illuminate\Http\Client\Response;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\ValidationException;
 use App\Exceptions\FailedActionException;
+use App\Exceptions\AuthorizationException;
 use Illuminate\Http\Client\PendingRequest;
 
 class PostyClient extends PendingRequest
@@ -34,6 +35,10 @@ class PostyClient extends PendingRequest
 
     protected function handleRequestError(Response $response)
     {
+        if ($response->status() == 401) {
+            throw new AuthorizationException($response->json());
+        }
+
         if ($response->status() == 422) {
             throw new ValidationException($response->json());
         }

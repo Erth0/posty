@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Helpers;
+use App\Client\PostyClient;
 use Illuminate\Support\Arr;
 use LaravelZero\Framework\Commands\Command;
 
@@ -21,6 +22,20 @@ class ListTagsCommand extends Command
      * @var string
      */
     protected $description = 'List all tags';
+
+    /**
+     * Posty Client
+     *
+     * @var \App\Client\PostyClient
+     */
+    protected $client;
+
+    public function __construct()
+    {
+        $this->client = app(PostyClient::class);
+
+        parent::__construct();
+    }
 
     /**
      * Execute the console command.
