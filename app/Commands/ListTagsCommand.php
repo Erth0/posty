@@ -2,9 +2,9 @@
 
 namespace App\Commands;
 
-use App\Command;
 use App\Helpers;
 use Illuminate\Support\Arr;
+use LaravelZero\Framework\Commands\Command;
 
 class ListTagsCommand extends Command
 {

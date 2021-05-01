@@ -3,7 +3,6 @@
 namespace App\Commands;
 
 use App\Path;
-use App\Config;
 use App\Helpers;
 use App\Models\Project;
 use LaravelZero\Framework\Commands\Command;

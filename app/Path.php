@@ -21,7 +21,7 @@ class Path
      */
     public static function posty()
     {
-        return getcwd().'/.posty';
+        return getcwd(). DIRECTORY_SEPARATOR . '.posty';
     }
 
     public static function home()
@@ -31,6 +31,6 @@ class Path
 
     public static function databasePath()
     {
-        return $_SERVER['HOME'] . '/.posty/';
+        return $_SERVER['HOME'] . DIRECTORY_SEPARATOR . '.posty' . DIRECTORY_SEPARATOR;
     }
 }

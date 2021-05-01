@@ -3,10 +3,10 @@
 namespace App\Commands;
 
 use App\Path;
-use App\Command;
 use App\Helpers;
 use App\Models\Project;
 use Illuminate\Support\Str;
+use LaravelZero\Framework\Commands\Command;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 class PublishArticleCommand extends Command

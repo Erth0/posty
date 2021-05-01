@@ -2,10 +2,10 @@
 
 namespace App\Commands;
 
-use App\Command;
+use App\Path;
 use App\Helpers;
 use App\Models\Project;
-use App\Path;
+use LaravelZero\Framework\Commands\Command;
 
 class CreateArticleCommand extends Command
 {

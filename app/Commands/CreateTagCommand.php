@@ -2,8 +2,8 @@
 
 namespace App\Commands;
 
-use App\Command;
 use App\Helpers;
+use LaravelZero\Framework\Commands\Command;
 
 class CreateTagCommand extends Command
 {

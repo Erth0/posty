@@ -3,11 +3,11 @@
 namespace App\Commands;
 
 use App\Path;
-use App\Command;
 use App\Helpers;
 use App\Models\Project;
 use Illuminate\Support\Str;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
+use LaravelZero\Framework\Commands\Command;
 
 class UpdateArticleCommand extends Command
 {

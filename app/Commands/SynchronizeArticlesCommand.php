@@ -3,10 +3,10 @@
 namespace App\Commands;
 
 use App\Path;
-use App\Command;
 use App\Helpers;
 use App\Models\Project;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
+use LaravelZero\Framework\Commands\Command;
 
 class SynchronizeArticlesCommand extends Command
 {
