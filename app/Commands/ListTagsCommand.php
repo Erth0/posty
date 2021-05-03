@@ -24,20 +24,6 @@ class ListTagsCommand extends Command
     protected $description = 'List all tags';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -46,7 +32,7 @@ class ListTagsCommand extends Command
     {
         Helpers::validate();
 
-        $tags = collect($this->client->get('tags'))->map(function ($tag) {
+        $tags = collect(app(PostyClient::class)->get('tags'))->map(function ($tag) {
             return Arr::only($tag, ['id', 'slug', 'name']);
         })
         ->toArray();

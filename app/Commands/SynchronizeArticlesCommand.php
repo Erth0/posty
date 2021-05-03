@@ -26,20 +26,6 @@ class SynchronizeArticlesCommand extends Command
     protected $description = 'Synchronize all articles for this project';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -61,14 +47,14 @@ class SynchronizeArticlesCommand extends Command
                     return;
                 }
 
-                $article = $this->client->get("articles/{$parser->id}");
+                $article = app(PostyClient::class)->get("articles/{$parser->id}");
 
                 if (! $article) {
                     $this->info("Article couldn't be found in the database, skipping...");
                     return;
                 }
 
-                $article = $this->client->put("articles/{$parser->id}", [
+                $article = app(PostyClient::class)->put("articles/{$parser->id}", [
                     'title' => $parser->title,
                     'slug' => $parser->slug,
                     'summary' => $parser->summary,

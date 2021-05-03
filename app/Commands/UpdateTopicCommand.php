@@ -24,20 +24,6 @@ class UpdateTopicCommand extends Command
     protected $description = 'Update topic';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -47,11 +33,11 @@ class UpdateTopicCommand extends Command
         Helpers::validate();
 
         $slug = $this->argument('slug') ?? $this->ask('Topic slug?');
-        $topic = $this->client->get("topics/{$slug}");
+        $topic = app(PostyClient::class)->get("topics/{$slug}");
         $name = $this->ask('Topic name?');
 
         $this->task("Updating ({$topic['name']}) topic", function () use ($topic, $name) {
-            $this->client->put("topics/{$topic['slug']}", [
+            app(PostyClient::class)->put("topics/{$topic['slug']}", [
                 'name' => $name,
             ]);
         });

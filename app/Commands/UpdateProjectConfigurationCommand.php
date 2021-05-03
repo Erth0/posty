@@ -25,21 +25,6 @@ class UpdateProjectConfigurationCommand extends Command
     protected $description = 'Update project configuration settings';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-
-    /**
      * Execute the console command.
      *
      * @return mixed

@@ -29,20 +29,6 @@ class DeleteArticleCommand extends Command
     protected $description = 'Delete article';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -65,7 +51,7 @@ class DeleteArticleCommand extends Command
             Helpers::abort('Article id is required to find the article');
         }
 
-        $article = $this->client->get("articles/{$parser->id}");
+        $article = app(PostyClient::class)->get("articles/{$parser->id}");
 
         if (! $article) {
             Helpers::abort("Article ({$parser->id}) does not exists in the database");
@@ -74,7 +60,7 @@ class DeleteArticleCommand extends Command
         $confirmation = $this->confirm("Are you sure your would like to delete this article: ({$article['title']})");
 
         if ($confirmation) {
-            $this->client->delete("articles/{$parser->id}");
+            app(PostyClient::class)->delete("articles/{$parser->id}");
 
             unlink($file);
 

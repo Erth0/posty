@@ -24,20 +24,6 @@ class DeleteTagCommand extends Command
     protected $description = 'Delete tag';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -47,13 +33,13 @@ class DeleteTagCommand extends Command
         Helpers::validate();
 
         $slug = $this->argument('slug') ?? $this->ask('Tag slug?');
-        $tag = $this->client->get("tags/{$slug}");
+        $tag = app(PostyClient::class)->get("tags/{$slug}");
 
         $confirmation = $this->confirm("Are you sure you would like to delete ({$tag['name']}) tag?");
 
         if($confirmation) {
             $this->task("Deleting ({$tag['name']}) tag", function () use ($tag) {
-                $this->client->delete("tags/{$tag['slug']}");
+                app(PostyClient::class)->delete("tags/{$tag['slug']}");
             });
         }else {
             Helpers::abort('Aborting...');

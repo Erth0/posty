@@ -24,20 +24,6 @@ class ListTopicsCommand extends Command
     protected $description = 'List all topics';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -46,7 +32,7 @@ class ListTopicsCommand extends Command
     {
         Helpers::validate();
 
-        $topics = collect($this->client->get('topics'))->map(function ($topic) {
+        $topics = collect(app(PostyClient::class)->get('topics'))->map(function ($topic) {
             return Arr::only($topic, ['id', 'slug', 'name']);
         })
         ->toArray();

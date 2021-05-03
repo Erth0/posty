@@ -3,15 +3,105 @@
 namespace App\Client;
 
 use Exception;
+use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\Response;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\ValidationException;
 use App\Exceptions\FailedActionException;
 use App\Exceptions\AuthorizationException;
-use Illuminate\Http\Client\PendingRequest;
 
-class PostyClient extends PendingRequest
+class PostyClient
 {
+    /**
+     * Factory configuration
+     */
+    protected array $config;
+
+    /**
+     * Factory
+     *
+     * @var Illuminate\Http\Client\Factory
+     */
+    protected $factory;
+
+    public function __construct(array $config)
+    {
+        if (! $config['endpoint']) {
+            throw new Exception('Endpoint is missing');
+        }
+
+        if (! $config['auth_token']) {
+            throw new Exception('Authentication token is missing');
+        }
+
+        $this->factory = (new Factory())
+            ->acceptJson()
+            ->baseUrl($config['endpoint'] . '/' . $config['endpoint_prefix'])
+            ->withToken($config['auth_token']);
+    }
+
+    /**
+     * Issue a GET request to the given URL.
+     *
+     * @param  string  $url
+     * @param  array|string|null  $query
+     * @return \Illuminate\Http\Client\Response
+     */
+    public function get(string $url, $query = null)
+    {
+        return $this->send('GET', $url, [
+            'query' => $query,
+        ]);
+    }
+
+    /**
+     * Issue a POST request to the given URL.
+     *
+     * @param  string  $url
+     * @param  array  $data
+     * @return \Illuminate\Http\Client\Response
+     */
+    public function post(string $url, array $data = [])
+    {
+        return $this->send('POST', $url, $data);
+    }
+
+    /**
+     * Issue a PATCH request to the given URL.
+     *
+     * @param  string  $url
+     * @param  array  $data
+     * @return \Illuminate\Http\Client\Response
+     */
+    public function patch($url, $data = [])
+    {
+        return $this->send('PATCH', $url, $data);
+    }
+
+    /**
+     * Issue a PUT request to the given URL.
+     *
+     * @param  string  $url
+     * @param  array  $data
+     * @return \Illuminate\Http\Client\Response
+     */
+    public function put($url, $data = [])
+    {
+        return $this->send('PUT', $url, $data);
+    }
+
+    /**
+     * Issue a DELETE request to the given URL.
+     *
+     * @param  string  $url
+     * @param  array  $data
+     * @return \Illuminate\Http\Client\Response
+     */
+    public function delete($url, $data = [])
+    {
+        return $this->send('DELETE', $url, empty($data) ? [] : $data);
+    }
+
     /**
      * Send the request to the given URL.
      *
@@ -24,9 +114,9 @@ class PostyClient extends PendingRequest
      */
     public function send(string $method, string $url, array $options = [])
     {
-        $response = parent::send($method, $url, $options);
+        $response = $this->factory->send($method, $url, $options);
 
-        if(! $response->successful()) {
+        if (! $response->successful()) {
             $this->handleRequestError($response);
         }
 

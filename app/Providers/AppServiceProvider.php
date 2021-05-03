@@ -3,10 +3,8 @@
 namespace App\Providers;
 
 use App\Path;
-use App\Helpers;
 use App\Models\Project;
 use App\Client\PostyClient;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,17 +16,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (! Helpers::databaseCreated()) {
-            Artisan::call('install');
-        }
-
-        $project = Project::findByPath(Path::current());
-
-        if ($project) {
-            $this->app->singleton(PostyClient::class, function () use($project) {
-                return (new PostyClient())->acceptJson()->baseUrl($project->endpoint . '/' . $project->endpoint_prefix)->withToken($project->auth_token);
-            });
-        }
+        $this->app->singleton(PostyClient::class, function () {
+            $project = Project::findByPath(Path::current());
+            if ($project) {
+                return (new PostyClient([
+                    'endpoint' => $project->endpoint,
+                    'endpoint_prefix' => $project->endpoint_prefix,
+                    'auth_token' => $project->auth_token,
+                ]));
+            }
+        });
     }
 
     /**

@@ -23,20 +23,6 @@ class TestConnectionStatus extends Command
     protected $description = 'Test posty connection';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -46,7 +32,7 @@ class TestConnectionStatus extends Command
         Helpers::validate();
 
         $this->task('Testing posty connection', function () {
-            return $this->client->get('test');
+            return app(PostyClient::class)->get('test');
         });
     }
 }

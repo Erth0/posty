@@ -24,20 +24,6 @@ class CreateTagCommand extends Command
     protected $description = 'Create a new tag';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -49,7 +35,7 @@ class CreateTagCommand extends Command
         $tagName = $this->argument('name') ?? $this->ask('Tag name?');
 
         $this->task('Creating a new tag', function () use ($tagName) {
-            $this->client->post('tags', [
+            app(PostyClient::class)->post('tags', [
                 'name' => $tagName,
             ]);
         });

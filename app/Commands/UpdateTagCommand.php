@@ -24,20 +24,6 @@ class UpdateTagCommand extends Command
     protected $description = 'Update tag';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -47,11 +33,11 @@ class UpdateTagCommand extends Command
         Helpers::validate();
 
         $slug = $this->argument('slug') ?? $this->ask('Tag slug?');
-        $tag = $this->client->get("tags/{$slug}");
+        $tag = app(PostyClient::class)->get("tags/{$slug}");
         $name = $this->ask('Tag name?');
 
         $this->task("Updating ({$tag['name']}) tag", function () use ($tag, $name) {
-            $this->client->put("tags/{$tag['slug']}", [
+            app(PostyClient::class)->put("tags/{$tag['slug']}", [
                 'name' => $name,
             ]);
         });

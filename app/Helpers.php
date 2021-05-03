@@ -51,7 +51,7 @@ class Helpers
         $project = Project::findByPath(Path::current());
 
         if (! $project) {
-            Helpers::abort("No project linked with the current folder: " . getcwd());
+            Helpers::abort("No project linked with the current folder: " . getcwd() . ' - use `link` command to link the folder with a project');
         }
     }
 

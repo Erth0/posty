@@ -24,20 +24,6 @@ class CreateTopicCommand extends Command
     protected $description = 'Create a new topic';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -49,7 +35,7 @@ class CreateTopicCommand extends Command
         $topicName = $this->argument('name') ?? $this->ask('Topic name?');
 
         $this->task('Creating a new topic', function () use ($topicName) {
-            $this->client->post('topics', [
+            app(PostyClient::class)->post('topics', [
                 'name' => $topicName,
             ]);
         });

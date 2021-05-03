@@ -28,20 +28,6 @@ class PublishArticleCommand extends Command
     protected $description = 'Publish article';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -60,7 +46,7 @@ class PublishArticleCommand extends Command
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-        $article = $this->client->put("articles/{$parser->id}", [
+        $article = app(PostyClient::class)->put("articles/{$parser->id}", [
             'title' => $parser->title,
             'slug' => $parser->slug,
             'summary' => $parser->summary,

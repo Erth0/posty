@@ -25,20 +25,6 @@ class CreateArticleCommand extends Command
     protected $description = 'Create a new draft article';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -49,8 +35,8 @@ class CreateArticleCommand extends Command
 
         $project = Project::findByPath(Path::current());
 
-        $topics = collect($this->client->get('topics'))->pluck('slug')->toArray();
-        $tags = collect($this->client->get('tags'))->pluck('slug')->toArray();
+        $topics = collect(app(PostyClient::class)->get('topics'))->pluck('slug')->toArray();
+        $tags = collect(app(PostyClient::class)->get('tags'))->pluck('slug')->toArray();
 
         $details = [];
         $details['title'] = $this->ask('Title');
@@ -59,7 +45,7 @@ class CreateArticleCommand extends Command
         $details['topic'] = implode(',', $this->choice('Topics', $topics, null, null, true));
         $details['tags'] = implode(',', $this->choice('Tags', $tags, null, null, true));
 
-        $article = $this->client->post('articles', $details);
+        $article = app(PostyClient::class)->post('articles', $details);
 
         $details['id'] = $article['id'];
 

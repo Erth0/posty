@@ -27,20 +27,6 @@ class UpdateArticleCommand extends Command
     protected $description = 'Update article';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -58,13 +44,13 @@ class UpdateArticleCommand extends Command
         }
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
-        $article = $this->client->get("articles/{$parser->id}");
+        $article = app(PostyClient::class)->get("articles/{$parser->id}");
 
         if (! $article) {
             Helpers::abort("Article couldn't be found in the database with ID: {$parser->id}");
         }
 
-        $article = $this->client->put("articles/{$parser->id}", [
+        $article = app(PostyClient::class)->put("articles/{$parser->id}", [
             'title' => $parser->title,
             'slug' => $parser->slug,
             'summary' => $parser->summary,

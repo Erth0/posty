@@ -24,20 +24,6 @@ class DeleteTopicCommand extends Command
     protected $description = 'Delete topic';
 
     /**
-     * Posty Client
-     *
-     * @var \App\Client\PostyClient
-     */
-    protected $client;
-
-    public function __construct()
-    {
-        $this->client = app(PostyClient::class);
-
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return mixed
@@ -47,13 +33,13 @@ class DeleteTopicCommand extends Command
         Helpers::validate();
 
         $slug = $this->argument('slug') ?? $this->ask('Topic slug?');
-        $topic = $this->client->get("topics/{$slug}");
+        $topic = app(PostyClient::class)->get("topics/{$slug}");
 
         $confirmation = $this->confirm("Are you sure you would like to delete ({$topic['name']}) topic?");
 
         if($confirmation) {
             $this->task("Deleting ({$topic['name']}) topic", function () use ($topic) {
-                $this->client->delete("topics/{$topic['slug']}");
+                app(PostyClient::class)->delete("topics/{$topic['slug']}");
             });
         }else {
             Helpers::abort('Aborting...');
