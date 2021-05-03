@@ -49,11 +49,11 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "bin": [
-        "builds/posty"
+        "posty"
     ],
     "scripts": {
         "post-create-project-cmd": [
-            "@php posty install"
+            "@php application app:rename"
         ]
     }
 }
