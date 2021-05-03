@@ -32,23 +32,18 @@ class InstallDatabaseCommand extends Command
      */
     public function handle()
     {
-        // php -r "echo $_SERVER['home']";
-        // php -r "echo 'test';";
-        // php -r "if(! is_dir($_SERVER['home'] . '/.posty')){ mkdir($_SERVER['home'] . '/.posty'); } if(! file_exists($_SERVER['home'] . '/.posty/' . 'database.sqlite')) { file_put_contents($_SERVER['home'] . '/.posty/' . 'database.sqlite', '') }"
-        $this->task("Installing...", function () {
-            $databasePath = $_SERVER['HOME'] . DIRECTORY_SEPARATOR . '.posty' . DIRECTORY_SEPARATOR;
+        $databasePath = Path::databasePath();
 
-            if (! is_dir($databasePath)) {
-                mkdir($databasePath);
-            }
+        if (! is_dir($databasePath)) {
+            mkdir($databasePath);
+        }
 
-            if (! file_exists($databasePath . 'database.sqlite')) {
-                file_put_contents($databasePath . 'database.sqlite', '');
-            }
+        if (! file_exists($databasePath . 'database.sqlite')) {
+            file_put_contents($databasePath . 'database.sqlite', '');
+        }
 
-            $migrated = Artisan::call('migrate', [
-                '--force' => true,
-            ]);
-        });
+        Artisan::call('migrate', [
+            '--force' => true,
+        ]);
     }
 }

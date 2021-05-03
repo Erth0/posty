@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Path;
+use App\Helpers;
 use App\Models\Project;
 use App\Client\PostyClient;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,15 +18,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->singleton(PostyClient::class, function() {
-            if(file_exists(Path::databasePath() . 'database.sqlite')) {
-                $project = Project::findByPath(Path::current());
+        if (! Helpers::databaseCreated()) {
+            Artisan::call('install');
+        }
 
-                if($project) {
-                    return (new PostyClient())->acceptJson()->baseUrl($project->endpoint . '/' . $project->endpoint_prefix)->withToken($project->auth_token);
-                }
-            }
-        });
+        $project = Project::findByPath(Path::current());
+
+        if ($project) {
+            $this->app->singleton(PostyClient::class, function () use($project) {
+                return (new PostyClient())->acceptJson()->baseUrl($project->endpoint . '/' . $project->endpoint_prefix)->withToken($project->auth_token);
+            });
+        }
     }
 
     /**

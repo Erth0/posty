@@ -54,4 +54,9 @@ class Helpers
             Helpers::abort("No project linked with the current folder: " . getcwd());
         }
     }
+
+    public static function databaseCreated()
+    {
+        return file_exists(Path::databasePath() . 'database.sqlite');
+    }
 }
