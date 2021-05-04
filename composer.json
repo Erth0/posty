@@ -49,7 +49,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "bin": [
-        "posty"
+        "builds/posty"
     ],
     "scripts": {
         "post-create-project-cmd": [
