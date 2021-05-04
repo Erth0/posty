@@ -3,15 +3,14 @@
     "directories": [
         "app",
         "bootstrap",
-        "database",
         "config",
+        "database",
         "vendor"
     ],
     "files": [
         "composer.json"
     ],
     "exclude-composer-files": false,
-    "exclude-dev-files": false,
     "compression": "GZ",
     "compactors": [
         "KevinGH\\Box\\Compactor\\Php",
