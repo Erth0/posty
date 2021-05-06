@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Models\Project;
+use App\Resources\Project;
 use Illuminate\Container\Container;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -58,5 +58,15 @@ class Helpers
     public static function databaseCreated()
     {
         return file_exists(Path::databasePath() . 'database.sqlite');
+    }
+
+    /**
+     * Get the home directory for the user.
+     *
+     * @return string
+     */
+    public static function home()
+    {
+        return $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'];
     }
 }

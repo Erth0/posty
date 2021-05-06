@@ -4,7 +4,7 @@ namespace App\Commands;
 
 use App\Path;
 use App\Helpers;
-use App\Models\Project;
+use App\Resources\Project;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
@@ -41,7 +41,7 @@ class LinkProjectCommand extends Command
         $endpoint = $this->ask('API Endpoint');
         $endpoint = Str::endsWith($endpoint, '/') ? Str::replaceLast('/', '', $endpoint) : $endpoint;
 
-        $project = Project::create([
+        $project = (new Project)->create([
             'name' => $name,
             'path' => Path::current(),
             'endpoint' => $endpoint,

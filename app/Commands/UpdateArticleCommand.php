@@ -4,7 +4,7 @@ namespace App\Commands;
 
 use App\Path;
 use App\Helpers;
-use App\Models\Project;
+use App\Resources\Project;
 use App\Client\PostyClient;
 use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;

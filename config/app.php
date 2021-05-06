@@ -55,7 +55,6 @@ return [
 
     'providers' => [
         App\Providers\AppServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
     ],
 
 ];

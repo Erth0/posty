@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Path;
-use App\Models\Project;
+use App\Resources\Project;
 use App\Client\PostyClient;
 use Illuminate\Support\ServiceProvider;
 

@@ -4,8 +4,7 @@ namespace App\Commands;
 
 use App\Path;
 use App\Helpers;
-use App\Models\Project;
-use App\Client\PostyClient;
+use App\Resources\Project;
 use LaravelZero\Framework\Commands\Command;
 
 class UpdateProjectConfigurationCommand extends Command

@@ -2,7 +2,7 @@
 
 namespace App\Commands;
 
-use App\Models\Project;
+use App\Resources\Project;
 use LaravelZero\Framework\Commands\Command;
 
 class ListProjectsCommand extends Command

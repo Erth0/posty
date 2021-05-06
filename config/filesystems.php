@@ -1,15 +1,11 @@
 <?php
 
 return [
-    'default' => 'local',
+    'default' => 'computer',
     'disks' => [
-        'local' => [
-            'driver' => 'local',
-            'root' => getcwd(),
-        ],
         'computer' => [
             'driver' => 'local',
-            'root' => '/',
+            'root' => $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'],
         ],
     ],
 ];
