@@ -37,11 +37,11 @@ class DeleteTopicCommand extends Command
 
         $confirmation = $this->confirm("Are you sure you would like to delete ({$topic['name']}) topic?");
 
-        if($confirmation) {
+        if ($confirmation) {
             $this->task("Deleting ({$topic['name']}) topic", function () use ($topic) {
                 app(PostyClient::class)->delete("topics/{$topic['slug']}");
             });
-        }else {
+        } else {
             Helpers::abort('Aborting...');
         }
     }

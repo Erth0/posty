@@ -46,7 +46,12 @@ class Helpers
         return $name ? Container::getInstance()->make($name) : Container::getInstance();
     }
 
-    public static function validate()
+    /**
+     * Validate if current folder exists within the projects.
+     *
+     * @return void
+     */
+    public static function validate(): void
     {
         $project = Project::findByPath(Path::current());
 
@@ -55,17 +60,12 @@ class Helpers
         }
     }
 
-    public static function databaseCreated()
-    {
-        return file_exists(Path::databasePath() . 'database.sqlite');
-    }
-
     /**
      * Get the home directory for the user.
      *
      * @return string
      */
-    public static function home()
+    public static function home(): string
     {
         return $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'];
     }

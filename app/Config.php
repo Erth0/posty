@@ -61,6 +61,6 @@ class Config
      */
     protected static function path()
     {
-        return Helpers::home().'/.posty/config.json';
+        return Helpers::home() . '/.posty/config.json';
     }
 }

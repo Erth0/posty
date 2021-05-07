@@ -4,9 +4,21 @@ namespace App\Resources;
 
 class Project extends Resource
 {
+    /**
+     * Resource key.
+     *
+     * @var string
+     */
     public $resource = 'projects';
 
-    public static function findByPath(string $path)
+    /**
+     * Find a project by path.
+     *
+     * @param string $path
+     *
+     * @return void
+     */
+    public static function findByPath(string $path): ?Project
     {
         $instance = new static();
 

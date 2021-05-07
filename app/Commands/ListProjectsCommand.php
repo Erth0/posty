@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Resources\Project;
+use Illuminate\Support\Arr;
 use LaravelZero\Framework\Commands\Command;
 
 class ListProjectsCommand extends Command
@@ -28,7 +29,10 @@ class ListProjectsCommand extends Command
      */
     public function handle()
     {
-        $projects = Project::select('name', 'path', 'endpoint')->get()->toArray();
+        $projects = (new Project)->all()->map(function($project) {
+            return Arr::only($project->attributes, ['name', 'path', 'endpoint']);
+        })
+        ->toArray();
 
         $this->table(['Name', 'Local Path', 'Endpoint'], $projects);
     }

@@ -37,11 +37,11 @@ class DeleteTagCommand extends Command
 
         $confirmation = $this->confirm("Are you sure you would like to delete ({$tag['name']}) tag?");
 
-        if($confirmation) {
+        if ($confirmation) {
             $this->task("Deleting ({$tag['name']}) tag", function () use ($tag) {
                 app(PostyClient::class)->delete("tags/{$tag['slug']}");
             });
-        }else {
+        } else {
             Helpers::abort('Aborting...');
         }
     }
