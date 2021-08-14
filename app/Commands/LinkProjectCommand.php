@@ -32,21 +32,37 @@ class LinkProjectCommand extends Command
     public function handle()
     {
         $project = Project::findByPath(Path::current());
-
         if ($project) {
             Helpers::abort('This project is already linked.');
         }
 
         $name = $this->ask("Please provide a project name?");
+        if (! $name) {
+            Helpers::abort('Project name is required.');
+        }
+
         $endpoint = $this->ask('API Endpoint');
         $endpoint = Str::endsWith($endpoint, '/') ? Str::replaceLast('/', '', $endpoint) : $endpoint;
+        if (! $endpoint) {
+            Helpers::abort('Endpoint is required.');
+        }
+
+        $endpointPrefix = $this->ask('API Endpoint Prefix', config('posty.posty_endpoint_prefix'));
+        if (! $endpointPrefix) {
+            Helpers::abort('Endpoint prefix is required.');
+        }
+
+        $authenticationToken = trim($this->ask('Authentication token'));
+        if (! $authenticationToken) {
+            Helpers::abort('Authentication token is required.');
+        }
 
         $project = (new Project)->create([
             'name' => $name,
             'path' => Path::current(),
             'endpoint' => $endpoint,
-            'endpoint_prefix' => $this->ask('API Endpoint Prefix', config('posty.posty_endpoint_prefix')),
-            'auth_token' => trim($this->ask('Authentication token')),
+            'endpoint_prefix' => $endpointPrefix,
+            'auth_token' => $authenticationToken,
         ]);
 
         $this->info("Folder was linked successfully with project: {$project->name}");

@@ -5,6 +5,7 @@ namespace App\Commands;
 use App\Path;
 use App\Helpers;
 use App\Resources\Project;
+use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 
 class UpdateProjectConfigurationCommand extends Command
@@ -33,9 +34,11 @@ class UpdateProjectConfigurationCommand extends Command
         Helpers::validate();
 
         $project = Project::findByPath(Path::current());
+        $endpoint = Str::endsWith($project->endpoint, '/') ? Str::replaceLast('/', '', $project->endpoint) : $project->endpoint;
+
         $project->update([
             'name' => $this->ask("Please provide a project name?", $project->name),
-            'endpoint' => $this->ask('API Endpoint', $project->endpoint),
+            'endpoint' => $this->ask('API Endpoint', $endpoint),
             'endpoint_prefix' => $this->ask('API Endpoint Prefix', $project->endpoint_prefix),
             'auth_token' => $this->ask('Authentication token', $project->auth_token),
         ]);

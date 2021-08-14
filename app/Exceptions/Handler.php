@@ -27,8 +27,13 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        if(config('app.env') === 'production') {
-            Helpers::abort($exception->getMessage());
+        if ($exception instanceof ValidationException) {
+            $message = $exception->errors()['message'];
+        }
+
+        if (config('app.env') === 'production') {
+            $message = $exception->getMessage();
+            Helpers::abort($message);
         }
 
         parent::report($exception);

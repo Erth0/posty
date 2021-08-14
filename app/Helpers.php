@@ -69,4 +69,14 @@ class Helpers
     {
         return $_SERVER['HOME'] ?? $_SERVER['USERPROFILE'];
     }
+
+    public static function parseString(string|null $words) :array
+    {
+        $words = array_filter($words ? explode(',', $words) : []);
+
+        return collect($words)->map(function ($word) {
+            return trim($word);
+        })
+        ->toArray();
+    }
 }

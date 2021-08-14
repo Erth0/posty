@@ -6,6 +6,7 @@ use App\Path;
 use App\Helpers;
 use App\Resources\Project;
 use App\Client\PostyClient;
+use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
@@ -40,7 +41,13 @@ class SynchronizeArticlesCommand extends Command
             ->reject(function ($file) {
                 return in_array($file, ['.', '..', '.DS_Store']);
             })
-            ->each(function ($file) {
+            ->reject(function ($file) use ($project) {
+                return is_dir($project->path . DIRECTORY_SEPARATOR . $file);
+            })
+            ->reject(function ($file) {
+                return ! Str::endsWith($file, '.md');
+            })
+            ->each(function ($file) use ($project) {
                 $parser = YamlFrontMatter::parse(file_get_contents($file));
 
                 if (! $parser->id) {
@@ -62,10 +69,15 @@ class SynchronizeArticlesCommand extends Command
                     'status' => $parser->status,
                     'featured_image' => $parser->featured_image,
                     'featured_image_caption' => $parser->featured_image_caption,
-                    'topics' => $parser->topics,
-                    'tags' => $parser->tags,
+                    'topics' => Helpers::parseString($parser->topics),
+                    'tags' => Helpers::parseString($parser->tags),
                     'meta' => $parser->meta,
                 ]);
+
+                rename(
+                    $project->path . DIRECTORY_SEPARATOR . $file,
+                    $project->path . DIRECTORY_SEPARATOR . $article['slug'] . '.md'
+                );
 
                 $this->info("Article with ID {$parser->id} was synchronized successfully.");
             });

@@ -18,6 +18,13 @@ class PostyClient
     protected array $config;
 
     /**
+     * The request body format.
+     *
+     * @var string
+     */
+    protected $bodyFormat = 'form_params';
+
+    /**
      * Factory
      *
      * @var Illuminate\Http\Client\Factory
@@ -63,7 +70,9 @@ class PostyClient
      */
     public function post(string $url, array $data = [])
     {
-        return $this->send('POST', $url, $data);
+        return $this->send('POST', $url, [
+            $this->bodyFormat => $data,
+        ]);
     }
 
     /**
@@ -75,7 +84,9 @@ class PostyClient
      */
     public function patch($url, $data = [])
     {
-        return $this->send('PATCH', $url, $data);
+        return $this->send('PATCH', $url, [
+            $this->bodyFormat => $data,
+        ]);
     }
 
     /**
@@ -87,7 +98,9 @@ class PostyClient
      */
     public function put($url, $data = [])
     {
-        return $this->send('PUT', $url, $data);
+        return $this->send('PUT', $url, [
+            $this->bodyFormat => $data,
+        ]);
     }
 
     /**
@@ -99,7 +112,9 @@ class PostyClient
      */
     public function delete($url, $data = [])
     {
-        return $this->send('DELETE', $url, empty($data) ? [] : $data);
+        return $this->send('DELETE', $url, empty($data) ? [] : [
+            $this->bodyFormat => $data,
+        ]);
     }
 
     /**

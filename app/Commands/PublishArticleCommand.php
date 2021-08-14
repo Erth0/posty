@@ -48,16 +48,20 @@ class PublishArticleCommand extends Command
 
         $article = app(PostyClient::class)->put("articles/{$parser->id}", [
             'title' => $parser->title,
-            'slug' => $parser->slug,
             'summary' => $parser->summary,
             'body' => $parser->body(),
             'status' => $parser->status,
             'featured_image' => $parser->featured_image,
             'featured_image_caption' => $parser->featured_image_caption,
-            'topics' => $parser->topics,
-            'tags' => $parser->tags,
+            'topics' => Helpers::parseString($parser->topics),
+            'tags' => Helpers::parseString($parser->tags),
             'meta' => $parser->meta,
         ]);
+
+        rename(
+            $project->path . DIRECTORY_SEPARATOR . $articleFileName,
+            $project->path . DIRECTORY_SEPARATOR . $article['slug'] . '.md'
+        );
 
         $this->info("Article ({$article['title']}) was published successfully.");
     }

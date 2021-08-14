@@ -1,13 +1,8 @@
 
 ![Posty](https://raw.githubusercontent.com/Erth0/posty/main/cover.png)
-
-## Introduction
-Posty is a simple way to manage your blog articles from the comfort of your computer with a simple to use CLI.
-
 ## Table of Contents
-- [Introduction](#introduction)
 - [Table of Contents](#table-of-contents)
-- [System Requirements](#system-requirements)
+- [Introduction](#introduction)
 - [Installation](#installation)
 - [Available Commands](#available-commands)
 - [Roadmap](#roadmap)
@@ -15,9 +10,8 @@ Posty is a simple way to manage your blog articles from the comfort of your comp
 - [License](#license)
 - [Credits](#credits)
 - [Badges](#badges)
-## System Requirements
-- PHP >= 7.3
-- One of the [four supported databases](https://laravel.com/docs/8.x/database#introduction) by Laravel
+## Introduction
+Posty is a simple way to manage your articles with a simple to use command line tool.
 ## Installation
 
 `composer global require erth0/posty`
@@ -44,11 +38,11 @@ You will be promted to enter few details such as:
 After all the configurations have been set you will get a success message and this folder is linked with the above project.
 To make sure the folder was linked successfully with the project you can test it with `posty test` **command**
 ## Available Commands
-- `posty test` (This wil test the connection between cli and the client)
-- `projects:list` (This will list all the linked folders with projects)
 - `posty link` (This will link the folder you are in with the desired project)
 - `posty unlink` (This will unlink the folder you are in with the linked project)
-- `project:update` (This will update project configurations)
+- `posty update` (This will update project configurations)
+- `posty projects` (This will list all the linked folders with projects)
+- `posty test` (This will test the connection between cli and the client)
 - `posty topics:list` (This will list all the topics)
 - `posty topic:create` (This will create a new topic)
 - `posty topic:update` (This will update topic)
@@ -62,15 +56,11 @@ To make sure the folder was linked successfully with the project you can test it
 - `posty delete my-first-article.md` (This will delete the article)
 - `posty sync` (This will synchronize all the articles within the linked project)
 
-
-
 ## Roadmap
 
 - Additional browser support
 
 - Add more integrations
-
-
 
 ## Running Tests
 
@@ -79,7 +69,6 @@ To run tests, run the following command
 ```bash
     ./vendor/bin/pest
 ```
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
@@ -95,8 +84,3 @@ To run tests, run the following command
 Add badges from somewhere like: [shields.io](https://shields.io/)
 
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
-
-
-
-
-
