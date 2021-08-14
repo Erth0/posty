@@ -46,16 +46,16 @@ class PublishArticleCommand extends Command
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-        $article = app(PostyClient::class)->put("articles/{$parser->id}", [
-            'title' => $parser->title,
-            'summary' => $parser->summary,
+        $article = app(PostyClient::class)->put("articles/{$parser->matter('id')}", [
+            'title' => $parser->matter('title'),
+            'summary' => $parser->matter('summary'),
             'body' => $parser->body(),
-            'status' => $parser->status,
-            'featured_image' => $parser->featured_image,
-            'featured_image_caption' => $parser->featured_image_caption,
-            'topics' => Helpers::parseString($parser->topics),
-            'tags' => Helpers::parseString($parser->tags),
-            'meta' => $parser->meta,
+            'status' => $parser->matter('status'),
+            'featured_image' => $parser->matter('featured_image'),
+            'featured_image_caption' => $parser->matter('featured_image_caption'),
+            'topics' => Helpers::parseString($parser->matter('topics')),
+            'tags' => Helpers::parseString($parser->matter('tags')),
+            'meta' => $parser->matter('meta'),
         ]);
 
         rename(

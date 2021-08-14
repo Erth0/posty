@@ -32,7 +32,7 @@ class UnlinkProjectCommand extends Command
     {
         $project = Project::findByPath(Path::current());
 
-        if(! $project) {
+        if (! $project) {
             Helpers::abort("No project linked with the current folder: " . Path::current());
         }
 

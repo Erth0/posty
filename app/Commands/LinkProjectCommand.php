@@ -65,6 +65,6 @@ class LinkProjectCommand extends Command
             'auth_token' => $authenticationToken,
         ]);
 
-        $this->info("Folder was linked successfully with project: {$project->name}");
+        $this->info("Folder was linked successfully with project: {$name}");
     }
 }

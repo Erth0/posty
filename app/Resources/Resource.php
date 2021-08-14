@@ -5,6 +5,7 @@ namespace App\Resources;
 use Exception;
 use App\Config;
 use Illuminate\Support\Collection;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Resource
 {
@@ -44,6 +45,11 @@ class Resource
         }
     }
 
+    public function getPrimaryKey() :int
+    {
+        return $this->{$this->primaryKey};
+    }
+
     /**
      * Get all records from resource.
      *
@@ -63,7 +69,7 @@ class Resource
      *
      * @return Resource|null
      */
-    public function find(string $key): ?Resource
+    public function find(string|int $key): ?Resource
     {
         return $this->all()->filter(function ($resource) use ($key) {
             return $resource->{$resource->primaryKey} == $key;
@@ -80,7 +86,7 @@ class Resource
      */
     public function create(array $data): ?Resource
     {
-        $id = count($this->all()) + 1;
+        $id = $this->all()->pluck('id')->max() + 1;
         $data[$this->primaryKey] = $id;
 
         Config::set($this->resource . '.' . $id, $data);
@@ -97,25 +103,47 @@ class Resource
      */
     public function update(array $data): ?Resource
     {
-        if (! $this->{$this->primaryKey}) {
+        if (! $this->getPrimaryKey()) {
             throw new Exception("Primary key is missing.");
         }
 
         if (in_array($this->primaryKey, array_keys($data))) {
-            unset($data[$this->primaryKey]);
+            unset($data[$this->getPrimaryKey()]);
         }
 
         $data = array_merge($this->attributes, $data);
 
         Config::set(
-            $this->resource . '.' . $this->{$this->primaryKey},
+            $this->resource . '.' . $this->getPrimaryKey(),
             $data
         );
 
         $this->attributes = $data;
         $this->fill();
 
-        return $this->find($this->{$this->primaryKey});
+        return $this->find($this->getPrimaryKey());
+    }
+
+    /**
+     * Delete Resource
+     *
+     * @return bool
+     */
+    public function delete() :bool
+    {
+        if (! $this->getPrimaryKey()) {
+            throw new Exception("Primary key is missing.");
+        }
+
+        $data = Config::get($this->resource);
+        unset($data[$this->getPrimaryKey()]);
+
+        Config::set(
+            $this->resource,
+            $data
+        );
+
+        return true;
     }
 
     /**
@@ -134,7 +162,7 @@ class Resource
      * Transform the items of the collection to the given class.
      *
      * @param  array  $collection
-     * @param  string  $class
+     * @param  mixed  $class
      * @param  array  $extraData
      * @return array
      */

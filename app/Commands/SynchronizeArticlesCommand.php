@@ -50,28 +50,22 @@ class SynchronizeArticlesCommand extends Command
             ->each(function ($file) use ($project) {
                 $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-                if (! $parser->id) {
+                if (! $parser->matter('id')) {
                     return;
                 }
 
-                $article = app(PostyClient::class)->get("articles/{$parser->id}");
+                $article = app(PostyClient::class)->get("articles/{$parser->matter('id')}");
 
-                if (! $article) {
-                    $this->info("Article couldn't be found in the database, skipping...");
-                    return;
-                }
-
-                $article = app(PostyClient::class)->put("articles/{$parser->id}", [
-                    'title' => $parser->title,
-                    'slug' => $parser->slug,
-                    'summary' => $parser->summary,
+                $article = app(PostyClient::class)->put("articles/{$parser->matter('id')}", [
+                    'title' => $parser->matter('title'),
+                    'summary' => $parser->matter('summary'),
                     'body' => $parser->body(),
-                    'status' => $parser->status,
-                    'featured_image' => $parser->featured_image,
-                    'featured_image_caption' => $parser->featured_image_caption,
-                    'topics' => Helpers::parseString($parser->topics),
-                    'tags' => Helpers::parseString($parser->tags),
-                    'meta' => $parser->meta,
+                    'status' => $parser->matter('status'),
+                    'featured_image' => $parser->matter('featured_image'),
+                    'featured_image_caption' => $parser->matter('featured_image_caption'),
+                    'topics' => Helpers::parseString($parser->matter('topics')),
+                    'tags' => Helpers::parseString($parser->matter('tags')),
+                    'meta' => $parser->matter('meta'),
                 ]);
 
                 rename(
@@ -79,7 +73,7 @@ class SynchronizeArticlesCommand extends Command
                     $project->path . DIRECTORY_SEPARATOR . $article['slug'] . '.md'
                 );
 
-                $this->info("Article with ID {$parser->id} was synchronized successfully.");
+                $this->info("Article with ID {$parser->matter('id')} was synchronized successfully.");
             });
     }
 }

@@ -1,5 +1,5 @@
 
-![Posty](https://raw.githubusercontent.com/Erth0/posty/main/cover.png)
+![Posty](https://raw.githubusercontent.com/Erth0/posty/main/art/cover.png)
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)

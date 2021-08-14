@@ -63,7 +63,7 @@ class CreateArticleCommand extends Command
         $this->info("Article was created successfully: file://{$file}");
     }
 
-    public function articleTemplate(array $details)
+    public function articleTemplate(array $details) :string
     {
         $tags = implode(',', $details['tags']);
         $topics = implode(',', $details['topics']);

@@ -47,20 +47,16 @@ class DeleteArticleCommand extends Command
 
         $parser = YamlFrontMatter::parse(file_get_contents($file));
 
-        if (! $parser->id) {
+        if (is_null($parser->matter('id', null))) {
             Helpers::abort('Article id is required to find the article');
         }
 
-        $article = app(PostyClient::class)->get("articles/{$parser->id}");
-
-        if (! $article) {
-            Helpers::abort("Article ({$parser->id}) does not exists in the database");
-        }
+        $article = app(PostyClient::class)->get("articles/{$parser->matter('id')}");
 
         $confirmation = $this->confirm("Are you sure your would like to delete this article: ({$article['title']})");
 
         if ($confirmation) {
-            app(PostyClient::class)->delete("articles/{$parser->id}");
+            app(PostyClient::class)->delete("articles/{$parser->matter('id')}");
 
             unlink($file);
 

@@ -9,6 +9,7 @@ use App\Exceptions\NotFoundException;
 use App\Exceptions\ValidationException;
 use App\Exceptions\FailedActionException;
 use App\Exceptions\AuthorizationException;
+use Illuminate\Http\Client\PendingRequest;
 
 class PostyClient
 {
@@ -27,9 +28,9 @@ class PostyClient
     /**
      * Factory
      *
-     * @var Illuminate\Http\Client\Factory
+     * @var PendingRequest
      */
-    protected $factory;
+    protected PendingRequest $factory;
 
     public function __construct(array $config)
     {
@@ -138,7 +139,7 @@ class PostyClient
         return $response->json();
     }
 
-    protected function handleRequestError(Response $response)
+    protected function handleRequestError(Response $response) :Exception
     {
         if ($response->status() == 401) {
             throw new AuthorizationException($response->json());
