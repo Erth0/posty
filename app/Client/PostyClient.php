@@ -25,8 +25,7 @@ class PostyClient
      */
     protected $bodyFormat = 'form_params';
 
-    /**
-     * Factory
+    /** Factory
      *
      * @var PendingRequest
      */
